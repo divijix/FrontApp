@@ -1,30 +1,25 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Stats from "./components/Stats";
-import Programs from "./components/Programs";
-import Features from "./components/Features";
-import Testimonials from "./components/Testimonials";
-import FAQ from "./components/FAQ";
-import CTA from "./components/CTA";
-import Footer from "./components/Footer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Courses from "./pages/Courses";
 function App() {
 
   return (
 
-    <div>
+    <BrowserRouter>
 
-      <Navbar />
-      <Hero />
-      <Stats />
-      <Programs />
-      <Features />
-      <Testimonials />
-      <FAQ />
-      <CTA />
-      <Footer />
+      <Routes>
 
-    </div>
+        <Route path="/" element={<Home />} />
+
+        <Route path="/about" element={<About />} />
+         <Route path="/contact" element={<Contact />} />
+         <Route path="/courses" element={<Courses/>}/>
+      </Routes>
+
+    </BrowserRouter>
 
   );
 }
