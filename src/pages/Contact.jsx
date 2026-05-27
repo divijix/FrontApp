@@ -14,6 +14,7 @@ import {
 function Contact() {
 
   /* CONTACT JSON DATA */
+
   const contactInfo = [
 
     {
@@ -26,7 +27,7 @@ function Contact() {
     {
       icon: <FaEnvelope />,
       title: "Email",
-      value: "hello@kingu.ai",
+      value: "divijixtechnology@zohomail.in",
       subtitle: "Response within 24hrs"
     },
 
@@ -40,33 +41,42 @@ function Contact() {
   ];
 
   /* MAP CONTACT CARDS */
+
   const contacts = contactInfo.map((element, index) => (
 
     <div
       key={index}
-      className="bg-white p-8 rounded-3xl shadow hover:shadow-2xl transition duration-300 flex gap-6 items-start"
+      className="bg-white p-6 md:p-8 rounded-3xl shadow hover:shadow-2xl transition duration-300 flex flex-col sm:flex-row gap-6 items-start"
     >
 
       {/* ICON */}
-      <div className="w-16 h-16 rounded-2xl bg-black text-white flex items-center justify-center text-2xl">
+
+      <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-black text-white flex items-center justify-center text-xl md:text-2xl">
 
         {element.icon}
 
       </div>
 
       {/* TEXT */}
+
       <div>
 
-        <h1 className="text-2xl font-bold mb-2">
+        <h1 className="text-xl md:text-2xl font-bold mb-2">
+
           {element.title}
+
         </h1>
 
-        <p className="text-gray-700 mb-2">
+        <p className="text-gray-700 mb-2 break-all">
+
           {element.value}
+
         </p>
 
-        <p className="text-gray-500">
+        <p className="text-gray-500 text-sm md:text-base">
+
           {element.subtitle}
+
         </p>
 
       </div>
@@ -76,6 +86,7 @@ function Contact() {
   ));
 
   /* FORM STATE */
+
   const [form, setForm] = useState({
 
     name: "",
@@ -87,6 +98,7 @@ function Contact() {
   });
 
   /* HANDLE CHANGE */
+
   const handleChange = (e) => {
 
     setForm({
@@ -99,6 +111,7 @@ function Contact() {
   };
 
   /* HANDLE SUBMIT */
+
   const handleSubmit = (e) => {
 
     e.preventDefault();
@@ -111,38 +124,48 @@ function Contact() {
 
   return (
 
-    <div className="bg-[#f5f5f5] min-h-screen">
+    <div className="bg-[#f5f5f5] min-h-screen overflow-hidden">
 
       <Navbar />
 
       {/* HERO */}
-      <section className="text-center py-28 px-10">
 
-        <h1 className="text-6xl font-bold mb-8">
+      <section className="text-center py-20 md:py-28 px-5 md:px-10">
+
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
+
           Let's Connect
+
         </h1>
 
-        <p className="text-gray-600 text-lg leading-8 max-w-3xl mx-auto">
+        <p className="text-gray-600 text-base md:text-lg leading-7 md:leading-8 max-w-3xl mx-auto">
+
           Have a question about our programs?
           Ready to apply? Want to collaborate?
           We'd love to hear from you.
+
         </p>
 
       </section>
 
       {/* CONTACT SECTION */}
-      <section className="px-10 pb-28">
 
-        <div className="grid md:grid-cols-2 gap-20">
+      <section className="px-5 md:px-10 pb-20 md:pb-28">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
 
           {/* LEFT SIDE */}
+
           <div>
 
-            <h1 className="text-5xl font-bold mb-12">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-12">
+
               Get in Touch
+
             </h1>
 
             {/* CONTACT CARDS */}
+
             <div className="space-y-8">
 
               {contacts}
@@ -150,16 +173,21 @@ function Contact() {
             </div>
 
             {/* LOCATION */}
+
             <div className="mt-16">
 
-              <p className="tracking-widest text-gray-500 mb-5">
+              <p className="tracking-widest text-gray-500 mb-5 text-sm">
+
                 OUR LOCATION
+
               </p>
 
-              <p className="text-gray-700 leading-8">
+              <p className="text-gray-700 leading-7 md:leading-8">
+
                 G-40, Ground Floor, Vaibhav Heights,
                 Ira Square, Butibori MIDC Road,
                 Nagpur
+
               </p>
 
             </div>
@@ -167,29 +195,38 @@ function Contact() {
           </div>
 
           {/* RIGHT SIDE FORM */}
-          <div className="bg-white p-10 rounded-3xl shadow">
 
-            <h1 className="text-4xl font-bold mb-4">
+          <div className="bg-white p-6 md:p-10 rounded-3xl shadow">
+
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+
               Send a Message
+
             </h1>
 
             <p className="text-gray-500 mb-10">
+
               We'll get back to you as soon as possible.
+
             </p>
 
             {/* FORM */}
+
             <form
               onSubmit={handleSubmit}
               className="space-y-8"
             >
 
               {/* ROW 1 */}
-              <div className="grid md:grid-cols-2 gap-6">
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <div>
 
                   <label className="block mb-3 font-medium">
+
                     Full Name
+
                   </label>
 
                   <input
@@ -206,7 +243,9 @@ function Contact() {
                 <div>
 
                   <label className="block mb-3 font-medium">
+
                     Phone
+
                   </label>
 
                   <input
@@ -223,12 +262,15 @@ function Contact() {
               </div>
 
               {/* ROW 2 */}
-              <div className="grid md:grid-cols-2 gap-6">
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <div>
 
                   <label className="block mb-3 font-medium">
+
                     Email
+
                   </label>
 
                   <input
@@ -245,7 +287,9 @@ function Contact() {
                 <div>
 
                   <label className="block mb-3 font-medium">
+
                     Subject
+
                   </label>
 
                   <input
@@ -262,10 +306,13 @@ function Contact() {
               </div>
 
               {/* MESSAGE */}
+
               <div>
 
                 <label className="block mb-3 font-medium">
+
                   Message
+
                 </label>
 
                 <textarea
@@ -280,9 +327,10 @@ function Contact() {
               </div>
 
               {/* BUTTON */}
+
               <button
                 type="submit"
-                className="w-full bg-black text-white py-5 rounded-xl hover:bg-gray-800 transition font-semibold tracking-widest"
+                className="w-full bg-black text-white py-4 md:py-5 rounded-xl hover:bg-gray-800 transition font-semibold tracking-widest"
               >
 
                 SEND MESSAGE
@@ -298,18 +346,23 @@ function Contact() {
       </section>
 
       {/* CTA SECTION */}
-      <section className="bg-black text-white text-center py-28 px-10">
 
-        <h1 className="text-5xl font-bold mb-8">
+      <section className="bg-black text-white text-center py-20 md:py-28 px-5 md:px-10">
+
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+
           Book a Free Counseling Session
+
         </h1>
 
-        <p className="text-gray-400 text-lg leading-8 max-w-2xl mx-auto">
+        <p className="text-gray-400 text-base md:text-lg leading-7 md:leading-8 max-w-2xl mx-auto">
+
           30-minute session with our admissions advisor
           to discuss your career path in AI.
+
         </p>
 
-        <button className="mt-10 bg-white text-black px-10 py-4 rounded-xl font-semibold hover:bg-gray-200 transition">
+        <button className="mt-10 bg-white text-black px-6 md:px-10 py-3 md:py-4 rounded-xl font-semibold hover:bg-gray-200 transition">
 
           BOOK NOW
 
@@ -318,22 +371,28 @@ function Contact() {
       </section>
 
       {/* MAP SECTION */}
-      <section className="px-10 py-28">
 
-        <div className="grid md:grid-cols-2 gap-20 items-center">
+      <section className="px-5 md:px-10 py-20 md:py-28">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
 
           {/* LEFT */}
+
           <div>
 
-            <h1 className="text-5xl font-bold mb-10">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-10">
+
               Find Us
+
             </h1>
 
-            <p className="text-gray-700 leading-8 mb-10">
+            <p className="text-gray-700 leading-7 md:leading-8 mb-10">
+
               Kingu Training & Research Institute <br />
               G-40, Ground Floor, Vaibhav Heights,
               Ira Square, Butibori MIDC Road,
               Nagpur
+
             </p>
 
             <div className="space-y-5">
@@ -359,7 +418,8 @@ function Contact() {
           </div>
 
           {/* RIGHT MAP */}
-          <div className="bg-gray-300 h-[400px] rounded-3xl shadow-xl"></div>
+
+          <div className="bg-gray-300 h-[250px] md:h-[400px] rounded-3xl shadow-xl"></div>
 
         </div>
 

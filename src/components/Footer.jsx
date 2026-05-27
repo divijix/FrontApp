@@ -5,24 +5,30 @@ function Footer() {
 
   return (
 
-    <footer className="bg-black text-white px-10 py-16">
+    <footer className="bg-black text-white px-5 md:px-10 py-14 md:py-16">
 
-      <div className="grid md:grid-cols-4 gap-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
         {/* LOGO */}
         <div>
 
-          <h1 className="text-3xl font-bold mb-4">
+          <h1 className="text-2xl md:text-3xl font-bold mb-4">
+
             Kingu
+
           </h1>
 
-          <p className="text-gray-400 leading-7">
+          <p className="text-gray-400 leading-7 text-sm md:text-base">
+
             Empowering the next generation of AI innovators.
+
           </p>
 
-          <div className="flex gap-4 mt-6 text-2xl text-red-500">
+          <div className="flex gap-4 mt-6 text-xl md:text-2xl text-red-500">
+
             <FaInstagram />
             <FaLinkedin />
+
           </div>
 
         </div>
@@ -30,16 +36,29 @@ function Footer() {
         {/* LINKS */}
         <div>
 
-          <h1 className="text-xl font-bold mb-5">
+          <h1 className="text-lg md:text-xl font-bold mb-5">
+
             Quick Links
+
           </h1>
 
-          <ul className="space-y-3 text-gray-400">
+          <ul className="space-y-3 text-gray-400 text-sm md:text-base">
 
-            <li>About</li>
-            <li>Courses</li>
-            <li>Admissions</li>
-            <li>Contact</li>
+            <li className="hover:text-white transition cursor-pointer">
+              About
+            </li>
+
+            <li className="hover:text-white transition cursor-pointer">
+              Courses
+            </li>
+
+            <li className="hover:text-white transition cursor-pointer">
+              Admissions
+            </li>
+
+            <li className="hover:text-white transition cursor-pointer">
+              Contact
+            </li>
 
           </ul>
 
@@ -48,15 +67,20 @@ function Footer() {
         {/* COURSES */}
         <div>
 
-          <h1 className="text-xl font-bold mb-5">
+          <h1 className="text-lg md:text-xl font-bold mb-5">
+
             Programs
+
           </h1>
 
-          <ul className="space-y-3 text-gray-400">
+          <ul className="space-y-3 text-gray-400 text-sm md:text-base">
 
             <li>Generative AI</li>
+
             <li>Machine Learning</li>
+
             <li>Data Science</li>
+
             <li>Cloud Computing</li>
 
           </ul>
@@ -66,14 +90,18 @@ function Footer() {
         {/* CONTACT */}
         <div>
 
-          <h1 className="text-xl font-bold mb-5">
+          <h1 className="text-lg md:text-xl font-bold mb-5">
+
             Contact
+
           </h1>
 
-          <ul className="space-y-3 text-gray-400">
+          <ul className="space-y-3 text-gray-400 text-sm md:text-base break-words">
 
             <li>Chennai, India</li>
+
             <li>+91 9876543210</li>
+
             <li>hello@kingu.ai</li>
 
           </ul>
@@ -83,7 +111,8 @@ function Footer() {
       </div>
 
       {/* BOTTOM */}
-      <div className="border-t border-gray-800 mt-16 pt-8 text-center text-gray-500">
+
+      <div className="border-t border-gray-800 mt-14 md:mt-16 pt-8 text-center text-gray-500 text-sm md:text-base">
 
         © 2026 Kingu AI Academy. All Rights Reserved.
 
