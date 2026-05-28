@@ -118,7 +118,7 @@ function Contact() {
 
     console.log(form);
 
-    alert("Message Sent 🚀");
+    alert("Message Sent ");
 
   };
 
@@ -184,9 +184,7 @@ function Contact() {
 
               <p className="text-gray-700 leading-7 md:leading-8">
 
-                G-40, Ground Floor, Vaibhav Heights,
-                Ira Square, Butibori MIDC Road,
-                Nagpur
+Jaipur Rajasthan
 
               </p>
 
@@ -388,10 +386,8 @@ function Contact() {
 
             <p className="text-gray-700 leading-7 md:leading-8 mb-10">
 
-              Kingu Training & Research Institute <br />
-              G-40, Ground Floor, Vaibhav Heights,
-              Ira Square, Butibori MIDC Road,
-              Nagpur
+               Divijix academy <br />
+             Jaipur,Rajasthan
 
             </p>
 

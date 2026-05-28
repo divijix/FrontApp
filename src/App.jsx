@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Courses from "./pages/Courses";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
 function App() {
 
   return (
@@ -20,7 +21,7 @@ function App() {
          <Route path="/courses" element={<Courses/>}/>
          <Route path="/Research" element={<NotFound/>}/>
           <Route path="/Blog" element={<NotFound/>}/>
-      </Routes>
+          <Route path="/login" element={<Login/>}/>  </Routes>
 
     </BrowserRouter>
 

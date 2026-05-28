@@ -78,7 +78,7 @@ function Features() {
         </p>
 
         <h1 className="text-4xl md:text-5xl font-bold">
-          The Kingu Difference
+          The  Divijix academy Difference
         </h1>
 
       </div>

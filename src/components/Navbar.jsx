@@ -63,7 +63,7 @@ function Navbar() {
 
     console.log(formData);
 
-    alert("Application Submitted Successfully 🚀");
+    alert("Application Submitted Successfully ");
 
     setShowForm(false);
 
@@ -81,14 +81,20 @@ function Navbar() {
 
         <h1 className="text-2xl md:text-3xl font-bold">
 
-          Kingu
+          Divijix academy
 
         </h1>
 
         {/* DESKTOP MENU */}
+          <ul className="hidden md:flex gap-10 text-gray-600 font-medium">
 
-        <ul className="hidden md:flex gap-10 text-gray-600 font-medium">
+          <li className="hover:text-red-600 transition cursor-pointer">
 
+            <Link to="/Login">
+              Login
+            </Link>
+
+          </li>
           <li className="hover:text-red-600 transition cursor-pointer">
 
             <Link to="/">
@@ -268,7 +274,7 @@ function Navbar() {
 
             <p className="text-gray-500 mb-8">
 
-              Fill the application form to join Kingu AI Academy.
+              Fill the application form to join  Divijix Academy.
 
             </p>
 
@@ -437,7 +443,7 @@ function Navbar() {
                 className="w-full bg-red-600 text-white py-4 rounded-xl hover:bg-red-700 transition duration-300 font-semibold"
               >
 
-                Submit Application 🚀
+                Submit Application 
 
               </button>
 

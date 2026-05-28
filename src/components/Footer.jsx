@@ -14,7 +14,7 @@ function Footer() {
 
           <h1 className="text-2xl md:text-3xl font-bold mb-4">
 
-            Kingu
+            Divijix academy
 
           </h1>
 
@@ -98,11 +98,11 @@ function Footer() {
 
           <ul className="space-y-3 text-gray-400 text-sm md:text-base break-words">
 
-            <li>Chennai, India</li>
+            <li>Address: Jaipur rajasthan</li>
 
-            <li>+91 9876543210</li>
+            <li>+91 9628718599</li>
 
-            <li>hello@kingu.ai</li>
+            <li>divijixtechnology@zohomail.in</li>
 
           </ul>
 
@@ -114,7 +114,7 @@ function Footer() {
 
       <div className="border-t border-gray-800 mt-14 md:mt-16 pt-8 text-center text-gray-500 text-sm md:text-base">
 
-        © 2026 Kingu AI Academy. All Rights Reserved.
+        © 2026 Divijix Academy. All Rights Reserved.
 
       </div>
 

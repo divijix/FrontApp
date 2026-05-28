@@ -13,7 +13,8 @@ function Hero() {
   const [formData, setFormData] = useState({
 
     phone: "",
-    message: ""
+    message: "",
+    email: " "
 
   });
 
@@ -244,6 +245,25 @@ function Hero() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+91 9876543210"
+                  required
+                  className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none focus:border-red-500"
+                />
+
+              </div>
+               <div>
+
+                <label className="block mb-2 font-medium">
+
+                  e-mail *
+
+                </label>
+
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="@gmail.com"
                   required
                   className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none focus:border-red-500"
                 />

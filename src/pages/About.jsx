@@ -1,167 +1,169 @@
+import React from "react";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import img from "../assets/about.jpg";
 
-import {
-  FaLightbulb,
-  FaTrophy,
-  FaShieldAlt,
-  FaSyncAlt
-} from "react-icons/fa";
+import img from "../assets/about.jpg";
 
 function About() {
 
-  const values = [
-
-    {
-      icon: <FaLightbulb />,
-      title: "Innovation",
-      description:
-        "We constantly explore modern AI technologies and ideas."
-    },
-
-    {
-      icon: <FaTrophy />,
-      title: "Excellence",
-      description:
-        "Delivering high-quality education and real-world outcomes."
-    },
-
-    {
-      icon: <FaShieldAlt />,
-      title: "Integrity",
-      description:
-        "Maintaining transparency, trust and ethical AI practices."
-    },
-
-    {
-      icon: <FaSyncAlt />,
-      title: "Continuous Learning",
-      description:
-        "Encouraging growth, experimentation and lifelong learning."
-    }
-
-  ];
-
   return (
 
-    <div className="bg-[#f5f5f5] overflow-hidden">
+    <div className="overflow-hidden">
 
       <Navbar />
 
-      {/* HERO */}
-      <section className="px-5 md:px-10 py-20 md:py-24">
+      {/* HERO SECTION */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+      <section className="grid grid-cols-1 md:grid-cols-2 items-center gap-12 md:gap-16 px-5 md:px-10 py-16 md:py-24 bg-[#f8f8f8]">
 
-          {/* LEFT */}
-          <div>
+        {/* LEFT */}
 
-            <p className="text-sm tracking-widest text-gray-500 mb-5">
-              ESTABLISHED 2024
-            </p>
+        <div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <p className="text-red-500 font-semibold mb-4 text-sm md:text-base">
 
-              Shaping the AI <br />
-              Talent of <span className="text-gray-500">Tomorrow</span>
+            ABOUT Divijix academy
 
-            </h1>
+          </p>
 
-            <p className="text-base md:text-lg text-gray-600 leading-7 md:leading-8 mt-10 max-w-xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
 
-              Kingu Training & Research Institute democratizes
-              world-class education to create a generation
-              of leaders solving real-world problems
-              through artificial intelligence.
+            Building Future AI Innovators
 
-            </p>
+          </h1>
 
-            <button className="mt-10 bg-black text-white px-6 md:px-8 py-3 md:py-4 rounded-xl hover:bg-gray-800 transition">
+          <p className="text-gray-600 mt-6 text-base md:text-lg leading-7 md:leading-8">
 
-              Explore Programs →
+            Divijix academy is a next-generation AI learning platform focused on
+            Artificial Intelligence, Machine Learning, Data Science,
+            Full Stack AI Development, and Cloud Computing.
+
+          </p>
+
+          <p className="text-gray-600 mt-4 text-base md:text-lg leading-7 md:leading-8">
+
+            We help students become industry-ready through real-world
+            projects, expert mentorship, and advanced AI training.
+
+          </p>
+
+          {/* BUTTONS */}
+
+          <div className="flex flex-wrap gap-5 mt-10">
+
+            <button className="bg-red-600 text-white px-6 md:px-7 py-3 rounded-xl hover:bg-red-700 transition duration-300">
+
+              Explore Courses
+
+            </button>
+
+            <button className="border border-black px-6 md:px-7 py-3 rounded-xl hover:bg-black hover:text-white transition duration-300">
+
+              Contact Us
 
             </button>
 
           </div>
 
-          {/* RIGHT IMAGE */}
-          <div className="relative">
+        </div>
 
-            <img
-              src={img}
-              alt="About"
-              className="w-full h-[300px] md:h-[500px] object-cover rounded-3xl shadow-xl"
-            />
+        {/* RIGHT IMAGE */}
 
-            {/* FLOATING CARD */}
-            <div className="absolute bottom-6 left-6 bg-white px-5 md:px-6 py-3 md:py-4 rounded-2xl shadow-2xl">
+        <div className="flex justify-center">
 
-              <h1 className="text-2xl md:text-3xl font-bold">
-                95%
-              </h1>
-
-              <p className="text-gray-500 text-xs md:text-sm tracking-widest">
-                CAREER SUCCESS
-              </p>
-
-            </div>
-
-          </div>
+          <img
+            src={img}
+            alt="About Kingu"
+            className="w-full max-w-[550px] h-[300px] md:h-[500px] object-cover rounded-3xl shadow-2xl"
+          />
 
         </div>
 
       </section>
 
-      {/* STATS */}
-      <section className="bg-[#020617] text-white py-14">
+      {/* STATS SECTION */}
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 text-center px-5 md:px-10">
+      <section className="px-5 md:px-10 py-20 bg-white">
 
-          <div>
+        <div className="text-center mb-16">
 
-            <h1 className="text-3xl md:text-5xl font-bold">
+          <p className="text-red-500 font-semibold mb-3">
+
+            OUR IMPACT
+
+          </p>
+
+          <h1 className="text-3xl md:text-5xl font-bold">
+
+            Transforming Careers with AI
+
+          </h1>
+
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          <div className="bg-[#f8f8f8] p-10 rounded-3xl shadow">
+
+            <h1 className="text-5xl font-bold text-red-600">
+
               500+
+
             </h1>
 
-            <p className="mt-3 text-gray-400 text-sm md:text-base">
-              STUDENTS TRAINED
+            <p className="mt-4 text-gray-600 text-lg">
+
+              Students Trained
+
             </p>
 
           </div>
 
-          <div>
+          <div className="bg-[#f8f8f8] p-10 rounded-3xl shadow">
 
-            <h1 className="text-3xl md:text-5xl font-bold">
+            <h1 className="text-5xl font-bold text-red-600">
+
               15+
+
             </h1>
 
-            <p className="mt-3 text-gray-400 text-sm md:text-base">
-              AI PROGRAMS
+            <p className="mt-4 text-gray-600 text-lg">
+
+              AI Programs
+
             </p>
 
           </div>
 
-          <div>
+          <div className="bg-[#f8f8f8] p-10 rounded-3xl shadow">
 
-            <h1 className="text-3xl md:text-5xl font-bold">
-              100%
-            </h1>
+            <h1 className="text-5xl font-bold text-red-600">
 
-            <p className="mt-3 text-gray-400 text-sm md:text-base">
-              ONLINE LEARNING
-            </p>
-
-          </div>
-
-          <div>
-
-            <h1 className="text-3xl md:text-5xl font-bold">
               95%
+
             </h1>
 
-            <p className="mt-3 text-gray-400 text-sm md:text-base">
-              CAREER SUCCESS
+            <p className="mt-4 text-gray-600 text-lg">
+
+              Career Success
+
+            </p>
+
+          </div>
+
+          <div className="bg-[#f8f8f8] p-10 rounded-3xl shadow">
+
+            <h1 className="text-5xl font-bold text-red-600">
+
+              100%
+
+            </h1>
+
+            <p className="mt-4 text-gray-600 text-lg">
+
+              Practical Learning
+
             </p>
 
           </div>
@@ -170,101 +172,46 @@ function About() {
 
       </section>
 
-      {/* STORY */}
-      <section className="px-5 md:px-10 py-20 md:py-28">
+      {/* MISSION SECTION */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
-
-          {/* LEFT */}
-          <div>
-
-            <p className="text-gray-500 mb-4 tracking-widest">
-              OUR STORY
-            </p>
-
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-              Where It All Began
-            </h1>
-
-          </div>
-
-          {/* RIGHT */}
-          <div>
-
-            <p className="text-gray-600 leading-7 md:leading-8">
-
-              Kingu was established to address the shortage
-              of skilled AI practitioners. We bridge the gap
-              between education and industry with real-world training.
-
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
-
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow">
-
-                <h1 className="text-2xl font-bold mb-4">
-                  Industry Driven
-                </h1>
-
-                <p className="text-gray-600 leading-7">
-                  Built with real industry requirements.
-                </p>
-
-              </div>
-
-              <div className="bg-white p-6 md:p-8 rounded-3xl shadow">
-
-                <h1 className="text-2xl font-bold mb-4">
-                  Modern Stack
-                </h1>
-
-                <p className="text-gray-600 leading-7">
-                  AI Agents, LLMs, RAG and Cloud technologies.
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* VISION + MISSION */}
-      <section className="px-5 md:px-10 py-20">
+      <section className="px-5 md:px-10 py-20 bg-[#f8f8f8]">
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 
-          {/* VISION */}
-          <div className="bg-white p-6 md:p-12 rounded-3xl shadow hover:shadow-2xl transition">
-
-            <h1 className="text-3xl md:text-4xl font-bold mb-6">
-              Our Vision
-            </h1>
-
-            <p className="text-gray-600 leading-7 md:leading-8">
-
-              To become a leading force in AI education
-              and innovation worldwide.
-
-            </p>
-
-          </div>
-
           {/* MISSION */}
-          <div className="bg-white p-6 md:p-12 rounded-3xl shadow hover:shadow-2xl transition">
 
-            <h1 className="text-3xl md:text-4xl font-bold mb-6">
+          <div className="bg-white p-10 rounded-3xl shadow">
+
+            <h1 className="text-3xl font-bold mb-6">
+
               Our Mission
+
             </h1>
 
-            <p className="text-gray-600 leading-7 md:leading-8">
+            <p className="text-gray-600 leading-8 text-base md:text-lg">
 
-              To empower students with modern AI skills
-              and real-world expertise.
+              To make high-quality AI education accessible to every student
+              and prepare them for the future of technology through
+              practical learning.
+
+            </p>
+
+          </div>
+
+          {/* VISION */}
+
+          <div className="bg-white p-10 rounded-3xl shadow">
+
+            <h1 className="text-3xl font-bold mb-6">
+
+              Our Vision
+
+            </h1>
+
+            <p className="text-gray-600 leading-8 text-base md:text-lg">
+
+              To become India’s leading AI innovation and training institute
+              by empowering students with next-generation skills.
 
             </p>
 
@@ -274,136 +221,99 @@ function About() {
 
       </section>
 
-      {/* VALUES */}
-      <section className="px-5 md:px-10 py-20 md:py-24">
+      {/* TEAM SECTION */}
 
-        {/* TITLE */}
-        <div className="text-center mb-20">
+      <section className="px-5 md:px-10 py-20 bg-white">
 
-          <p className="text-gray-500 mb-4 tracking-widest">
-            WHAT WE STAND FOR
+        <div className="text-center mb-16">
+
+          <p className="text-red-500 font-semibold mb-3">
+
+            OUR TEAM
+
           </p>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-            Our Core Values
-          </h1>
+          <h1 className="text-3xl md:text-5xl font-bold">
 
-        </div>
+            Meet Our Mentors
 
-        {/* CARDS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-          {values.map((item, index) => (
-
-            <div
-              key={index}
-              className="bg-white p-6 md:p-10 rounded-3xl shadow hover:shadow-2xl transition duration-300 hover:-translate-y-2"
-            >
-
-              {/* ICON */}
-              <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-black text-white text-3xl mb-8">
-
-                {item.icon}
-
-              </div>
-
-              {/* TITLE */}
-              <h1 className="text-2xl font-bold mb-5">
-
-                {item.title}
-
-              </h1>
-
-              {/* DESCRIPTION */}
-              <p className="text-gray-600 leading-7 md:leading-8">
-
-                {item.description}
-
-              </p>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </section>
-
-      {/* TEAM */}
-      <section className="px-5 md:px-10 py-20 md:py-24">
-
-        <div className="mb-20">
-
-          <p className="text-gray-500 mb-4 tracking-widest">
-            LEADERSHIP
-          </p>
-
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-            Meet Our Team
           </h1>
 
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
-          {["Director","Research Lead","Senior Mentor","Placement Head"].map((item,index)=>(
+          <div className="bg-[#f8f8f8] p-8 rounded-3xl text-center shadow">
 
-            <div
-              key={index}
-              className="bg-white rounded-3xl overflow-hidden shadow hover:shadow-2xl transition"
-            >
+            <div className="h-[220px] md:h-[250px] bg-gray-200 rounded-2xl mb-6"></div>
 
-              <div className="h-[250px] bg-gray-200"></div>
+            <h1 className="text-2xl font-bold">
 
-              <div className="p-6">
+              Rahul Sharma
 
-                <h1 className="text-2xl font-bold mb-2">
-                  {item}
-                </h1>
+            </h1>
 
-                <p className="text-gray-500">
-                  AI Department
-                </p>
+            <p className="text-red-500 mt-2">
 
-              </div>
+              AI Engineer
 
-            </div>
+            </p>
 
-          ))}
+          </div>
 
-        </div>
+          <div className="bg-[#f8f8f8] p-8 rounded-3xl text-center shadow">
 
-      </section>
+            <div className="h-[220px] md:h-[250px] bg-gray-200 rounded-2xl mb-6"></div>
 
-      {/* CTA */}
-      <section className="bg-[#020617] text-white py-20 md:py-24 text-center px-5 md:px-10">
+            <h1 className="text-2xl font-bold">
 
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+              Priya Patel
 
-          Be Part of the AI Revolution
+            </h1>
 
-        </h1>
+            <p className="text-red-500 mt-2">
 
-        <p className="text-gray-400 max-w-2xl mx-auto leading-7 md:leading-8">
+              ML Expert
 
-          Join Kingu and become part of a community dedicated
-          to advancing AI knowledge and capability.
+            </p>
 
-        </p>
+          </div>
 
-        <div className="flex flex-wrap justify-center gap-6 mt-10">
+          <div className="bg-[#f8f8f8] p-8 rounded-3xl text-center shadow">
 
-          <button className="bg-white text-black px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold hover:bg-gray-200 transition">
+            <div className="h-[220px] md:h-[250px] bg-gray-200 rounded-2xl mb-6"></div>
 
-            Apply Now
+            <h1 className="text-2xl font-bold">
 
-          </button>
+              Arjun Verma
 
-          <button className="border border-white px-6 md:px-8 py-3 md:py-4 rounded-xl hover:bg-white hover:text-black transition">
+            </h1>
 
-            Contact Us
+            <p className="text-red-500 mt-2">
 
-          </button>
+              Data Scientist
+
+            </p>
+
+          </div>
+
+          <div className="bg-[#f8f8f8] p-8 rounded-3xl text-center shadow">
+
+            <div className="h-[220px] md:h-[250px] bg-gray-200 rounded-2xl mb-6"></div>
+
+            <h1 className="text-2xl font-bold">
+
+              Sneha Iyer
+
+            </h1>
+
+            <p className="text-red-500 mt-2">
+
+              Cloud Architect
+
+            </p>
+
+          </div>
 
         </div>
 
