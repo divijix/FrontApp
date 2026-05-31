@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
 
   /* TOGGLE LOGIN / SIGNUP */
 
@@ -15,6 +17,9 @@ function Login() {
     password: ""
 
   });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   /* HANDLE INPUT */
 
@@ -33,23 +38,39 @@ function Login() {
 
   /* HANDLE SUBMIT */
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    if (isLogin) {
+    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/signup";
 
-      alert("Login Successful");
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Authentication failed");
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      alert(isLogin ? "Login Successful" : "Account Created Successfully");
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    else {
-
-      alert("Account Created Successfully");
-
-    }
-
-    console.log(formData);
 
   };
 
@@ -78,6 +99,14 @@ function Login() {
           </p>
 
         </div>
+
+        {/* ERROR DISPLAY */}
+        {error && (
+          <div className="bg-red-50 text-red-600 p-4 rounded-2xl mb-6 text-center text-sm font-semibold border border-red-200">
+            {error}
+          </div>
+        )}
+
 
         {/* FORM */}
 
@@ -160,10 +189,13 @@ function Login() {
 
           <button
             type="submit"
-            className="w-full bg-red-600 text-white py-4 rounded-2xl hover:bg-red-700 transition duration-300 font-semibold text-xl"
+            disabled={loading}
+            className={`w-full bg-red-600 text-white py-4 rounded-2xl hover:bg-red-700 transition duration-300 font-semibold text-xl ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
 
-            {isLogin ? "Login" : "Create Account"}
+            {loading ? (isLogin ? "Logging in..." : "Creating Account...") : (isLogin ? "Login" : "Create Account")}
 
           </button>
 

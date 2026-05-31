@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -16,6 +17,37 @@ import {
 } from "react-icons/fa";
 
 function Courses() {
+  const navigate = useNavigate();
+
+  const handleEnroll = async (courseId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please log in to enroll in courses.");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/courses/enroll", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ courseId })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to enroll in course");
+      }
+
+      alert("Enrollment successful!");
+      navigate("/dashboard");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   /* FILTER STATE */
 
@@ -25,92 +57,102 @@ function Courses() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  /* FOUNDATION COURSES */
+  /* FETCHED COURSES STATE */
+  const [courses, setCourses] = useState([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [coursesError, setCoursesError] = useState("");
 
-  const foundationCourses = [
+  const iconMap = {
+    FaCode: <FaCode />,
+    FaBrain: <FaBrain />,
+    FaRobot: <FaRobot />,
+    FaSearch: <FaSearch />,
+    FaDatabase: <FaDatabase />,
+  };
 
-    {
-      image:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-      level: "Foundation",
-      title: "Digital Marketing",
-      description:
-        "Master data-driven strategies, AI-powered content and performance marketing."
-    },
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("/api/courses");
+        if (!response.ok) {
+          throw new Error("Failed to load courses");
+        }
+        const data = await response.json();
+        setCourses(data);
+      } catch (err) {
+        setCoursesError(err.message);
+      } finally {
+        setCoursesLoading(false);
+      }
+    };
+    fetchCourses();
+  }, []);
 
-    {
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-      level: "Intermediate",
-      title: "Data Science",
-      description:
-        "Extract actionable insights using statistical modeling and machine learning."
-    },
+  /* FOUNDATION COURSES (FILTERED FROM FETCHED DATA) */
+  const foundationCourses = courses.filter(course => !course.is_technical);
 
-    {
-      image:
-        "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
-      level: "Beginner",
-      title: "Data Analysis",
-      description:
-        "Transform raw data into meaningful stories using Excel, SQL and analytics."
+  /* TECHNICAL COURSES (FILTERED FROM FETCHED DATA) */
+  const technicalCourses = courses.filter(course => course.is_technical).map(course => ({
+    ...course,
+    icon: iconMap[course.icon_name] || <FaCode />
+  }));
+
+  /* INQUIRY FORM STATE */
+  const [inquiryForm, setInquiryForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    course: "Select a course",
+    message: ""
+  });
+  const [inquiryLoading, setInquiryLoading] = useState(false);
+  const [inquiryStatus, setInquiryStatus] = useState({ type: "", message: "" });
+
+  const handleInquiryChange = (e) => {
+    setInquiryForm({
+      ...inquiryForm,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleInquirySubmit = async (e) => {
+    e.preventDefault();
+    if (inquiryForm.course === "Select a course") {
+      setInquiryStatus({ type: "error", message: "Please select a course of interest." });
+      return;
     }
+    setInquiryLoading(true);
+    setInquiryStatus({ type: "", message: "" });
 
-  ];
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inquiryForm),
+      });
 
-  /* TECHNICAL COURSES */
+      const data = await response.json();
 
-  const technicalCourses = [
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit inquiry");
+      }
 
-    {
-      icon: <FaCode />,
-      level: "Intermediate",
-      title: "Full Stack AI Engineering",
-      description:
-        "Build modern AI-powered applications using React and APIs."
-    },
-
-    {
-      icon: <FaBrain />,
-      level: "Intermediate",
-      title: "Generative AI",
-      description:
-        "Dive into LLMs, prompt engineering and AI tools."
-    },
-
-    {
-      icon: <FaRobot />,
-      level: "Advanced",
-      title: "Agentic AI",
-      description:
-        "Create autonomous AI systems with minimal human intervention."
-    },
-
-    {
-      icon: <FaSearch />,
-      level: "Advanced",
-      title: "RAG Systems",
-      description:
-        "Build Retrieval-Augmented Generation systems for enterprise AI."
-    },
-
-    {
-      icon: <FaDatabase />,
-      level: "Beginner",
-      title: "Prompt Engineering",
-      description:
-        "Master prompting techniques for modern AI applications."
-    },
-
-    {
-      icon: <FaRobot />,
-      level: "Intermediate",
-      title: "AI Workflow Automation",
-      description:
-        "Design AI automation pipelines for business operations."
+      setInquiryStatus({ type: "success", message: "Your inquiry has been submitted successfully!" });
+      setInquiryForm({
+        name: "",
+        phone: "",
+        email: "",
+        course: "Select a course",
+        message: ""
+      });
+    } catch (err) {
+      setInquiryStatus({ type: "error", message: err.message });
+    } finally {
+      setInquiryLoading(false);
     }
-
-  ];
+  };
 
   /* FILTER LOGIC */
 
@@ -258,54 +300,75 @@ function Courses() {
 
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {coursesLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+          </div>
+        ) : coursesError ? (
+          <div className="bg-red-50 text-red-600 p-6 rounded-2xl text-center font-semibold border border-red-200">
+            {coursesError}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          {foundationCourses.map((course, index) => (
+            {foundationCourses.map((course, index) => (
 
-            <div
-              key={index}
-              className="bg-white rounded-3xl overflow-hidden shadow hover:shadow-2xl transition"
-            >
+              <div
+                key={index}
+                className="bg-white rounded-3xl overflow-hidden shadow hover:shadow-2xl transition"
+              >
 
-              <img
-                src={course.image}
-                alt=""
-                className="w-full h-[220px] md:h-[260px] object-cover"
-              />
+                <img
+                  src={course.image_url || "https://images.unsplash.com/photo-1498050108023-c5249f4df085"}
+                  alt=""
+                  className="w-full h-[220px] md:h-[260px] object-cover"
+                />
 
-              <div className="p-6 md:p-8">
+                <div className="p-6 md:p-8">
 
-                <p className="text-gray-500 text-sm mb-3">
+                  <p className="text-gray-500 text-sm mb-3">
 
-                  {course.level}
+                    {course.level}
 
-                </p>
+                  </p>
 
-                <h1 className="text-2xl font-bold mb-4">
+                  <h1 className="text-2xl font-bold mb-4">
 
-                  {course.title}
+                    {course.title}
 
-                </h1>
+                  </h1>
 
-                <p className="text-gray-600 leading-7 text-sm md:text-base mb-8">
+                  <p className="text-gray-600 leading-7 text-sm md:text-base mb-8">
 
-                  {course.description}
+                    {course.description}
 
-                </p>
+                  </p>
 
-                <button className="font-semibold hover:text-red-600 transition">
+                  <div className="flex justify-between items-center mt-6 pt-6 border-t border-gray-100">
 
-                  Learn More →
+                    <button
+                      onClick={() => handleEnroll(course.id)}
+                      className="bg-black text-white px-5 py-2.5 rounded-xl text-xs font-semibold hover:bg-gray-800 transition"
+                    >
+                      Enroll Now
+                    </button>
 
-                </button>
+                    <button className="font-semibold hover:text-red-600 transition text-xs">
+
+                      Learn More →
+
+                    </button>
+
+                  </div>
+
+                </div>
 
               </div>
 
-            </div>
+            ))}
 
-          ))}
-
-        </div>
+          </div>
+        )}
 
       </section>
 
@@ -319,72 +382,83 @@ function Courses() {
 
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {coursesLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+          </div>
+        ) : coursesError ? (
+          null
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
 
-          {filteredCourses.map((course, index) => (
+            {filteredCourses.map((course, index) => (
 
-            <div
-              key={index}
-              className="bg-white rounded-3xl p-6 md:p-8 shadow hover:shadow-2xl transition"
-            >
+              <div
+                key={index}
+                className="bg-white rounded-3xl p-6 md:p-8 shadow hover:shadow-2xl transition"
+              >
 
-              {/* TOP */}
+                {/* TOP */}
 
-              <div className="flex justify-between items-center mb-8">
+                <div className="flex justify-between items-center mb-8">
 
-                <div className="bg-black text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
+                  <div className="bg-black text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
 
-                  {course.icon}
+                    {course.icon}
+
+                  </div>
+
+                  <span className="text-xs bg-gray-100 px-3 py-2 rounded-lg">
+
+                    {course.level}
+
+                  </span>
 
                 </div>
 
-                <span className="text-xs bg-gray-100 px-3 py-2 rounded-lg">
+                {/* TITLE */}
 
-                  {course.level}
+                <h1 className="text-2xl font-bold mb-4">
 
-                </span>
+                  {course.title}
 
-              </div>
+                </h1>
 
-              {/* TITLE */}
+                {/* DESCRIPTION */}
 
-              <h1 className="text-2xl font-bold mb-4">
+                <p className="text-gray-600 leading-7 text-sm md:text-base mb-10">
 
-                {course.title}
+                  {course.description}
 
-              </h1>
+                </p>
 
-              {/* DESCRIPTION */}
+                {/* BUTTONS */}
 
-              <p className="text-gray-600 leading-7 text-sm md:text-base mb-10">
+                <div className="flex justify-between items-center">
 
-                {course.description}
+                  <button
+                    onClick={() => handleEnroll(course.id)}
+                    className="bg-black text-white px-5 py-3 rounded-lg text-sm hover:bg-gray-800 transition"
+                  >
 
-              </p>
+                    Enroll Now
 
-              {/* BUTTONS */}
+                  </button>
 
-              <div className="flex justify-between items-center">
+                  <button className="font-medium hover:text-red-600 transition text-sm md:text-base">
 
-                <button className="bg-black text-white px-5 py-3 rounded-lg text-sm hover:bg-gray-800 transition">
+                    Learn More
 
-                  Enroll Now
+                  </button>
 
-                </button>
-
-                <button className="font-medium hover:text-red-600 transition text-sm md:text-base">
-
-                  Learn More
-
-                </button>
+                </div>
 
               </div>
 
-            </div>
+            ))}
 
-          ))}
-
-        </div>
+          </div>
+        )}
 
       </section>
 
@@ -466,7 +540,19 @@ function Courses() {
 
           <div className="bg-white rounded-3xl p-6 md:p-10 shadow">
 
-            <form className="space-y-6">
+            {inquiryStatus.message && (
+              <div
+                className={`p-4 rounded-2xl mb-6 text-center text-sm font-semibold border ${
+                  inquiryStatus.type === "success"
+                    ? "bg-green-50 text-green-600 border-green-200"
+                    : "bg-red-50 text-red-600 border-red-200"
+                }`}
+              >
+                {inquiryStatus.message}
+              </div>
+            )}
+
+            <form onSubmit={handleInquirySubmit} className="space-y-6">
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -480,7 +566,11 @@ function Courses() {
 
                   <input
                     type="text"
+                    name="name"
+                    value={inquiryForm.name}
+                    onChange={handleInquiryChange}
                     placeholder="Enter your name"
+                    required
                     className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none"
                   />
 
@@ -496,6 +586,9 @@ function Courses() {
 
                   <input
                     type="text"
+                    name="phone"
+                    value={inquiryForm.phone}
+                    onChange={handleInquiryChange}
                     placeholder="+91"
                     className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none"
                   />
@@ -514,7 +607,11 @@ function Courses() {
 
                 <input
                   type="email"
+                  name="email"
+                  value={inquiryForm.email}
+                  onChange={handleInquiryChange}
                   placeholder="name@company.com"
+                  required
                   className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none"
                 />
 
@@ -528,7 +625,12 @@ function Courses() {
 
                 </label>
 
-                <select className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none">
+                <select
+                  name="course"
+                  value={inquiryForm.course}
+                  onChange={handleInquiryChange}
+                  className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none"
+                >
 
                   <option>Select a course</option>
 
@@ -552,15 +654,25 @@ function Courses() {
 
                 <textarea
                   rows="5"
+                  name="message"
+                  value={inquiryForm.message}
+                  onChange={handleInquiryChange}
                   placeholder="Tell us about your career goals..."
+                  required
                   className="w-full border border-gray-300 rounded-xl px-5 py-4 outline-none resize-none"
                 ></textarea>
 
               </div>
 
-              <button className="w-full bg-black text-white py-4 rounded-xl hover:bg-gray-800 transition">
+              <button
+                type="submit"
+                disabled={inquiryLoading}
+                className={`w-full bg-black text-white py-4 rounded-xl hover:bg-gray-800 transition ${
+                  inquiryLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
 
-                Send Inquiry →
+                {inquiryLoading ? "Sending Inquiry..." : "Send Inquiry →"}
 
               </button>
 

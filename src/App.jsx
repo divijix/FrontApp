@@ -6,6 +6,9 @@ import Contact from "./pages/Contact";
 import Courses from "./pages/Courses";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Community from "./pages/Community";
+
 function App() {
 
   return (
@@ -19,9 +22,12 @@ function App() {
         <Route path="/about" element={<About />} />
          <Route path="/contact" element={<Contact />} />
          <Route path="/courses" element={<Courses/>}/>
+         <Route path="/community" element={<Community/>}/>
          <Route path="/Research" element={<NotFound/>}/>
           <Route path="/Blog" element={<NotFound/>}/>
-          <Route path="/login" element={<Login/>}/>  </Routes>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+      </Routes>
 
     </BrowserRouter>
 

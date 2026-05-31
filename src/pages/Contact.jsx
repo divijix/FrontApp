@@ -97,6 +97,9 @@ function Contact() {
 
   });
 
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ type: "", message: "" });
+
   /* HANDLE CHANGE */
 
   const handleChange = (e) => {
@@ -112,13 +115,40 @@ function Contact() {
 
   /* HANDLE SUBMIT */
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
+    setLoading(true);
+    setStatus({ type: "", message: "" });
 
-    console.log(form);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
 
-    alert("Message Sent ");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit message");
+      }
+
+      setStatus({ type: "success", message: "Message sent successfully!" });
+      setForm({
+        name: "",
+        phone: "",
+        email: "",
+        subject: "",
+        message: ""
+      });
+    } catch (err) {
+      setStatus({ type: "error", message: err.message });
+    } finally {
+      setLoading(false);
+    }
 
   };
 
@@ -207,6 +237,18 @@ Jaipur Rajasthan
               We'll get back to you as soon as possible.
 
             </p>
+
+            {status.message && (
+              <div
+                className={`p-4 rounded-2xl mb-6 text-center text-sm font-semibold border ${
+                  status.type === "success"
+                    ? "bg-green-50 text-green-600 border-green-200"
+                    : "bg-red-50 text-red-600 border-red-200"
+                }`}
+              >
+                {status.message}
+              </div>
+            )}
 
             {/* FORM */}
 
@@ -328,10 +370,13 @@ Jaipur Rajasthan
 
               <button
                 type="submit"
-                className="w-full bg-black text-white py-4 md:py-5 rounded-xl hover:bg-gray-800 transition font-semibold tracking-widest"
+                disabled={loading}
+                className={`w-full bg-black text-white py-4 md:py-5 rounded-xl hover:bg-gray-800 transition font-semibold tracking-widest ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
 
-                SEND MESSAGE
+                {loading ? "SENDING..." : "SEND MESSAGE"}
 
               </button>
 
