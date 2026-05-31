@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { FaPlus, FaTimes, FaUser, FaClock, FaHeart, FaComment, FaPaperPlane } from "react-icons/fa";
+import { API_BASE_URL } from "../config";
 
 function Community() {
   const [posts, setPosts] = useState([]);
@@ -26,7 +27,7 @@ function Community() {
 
   const fetchApprovedPosts = async () => {
     try {
-      const response = await fetch("/api/posts");
+      const response = await fetch(`${API_BASE_URL}/api/posts`);
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
@@ -58,7 +59,7 @@ function Community() {
 
     setSubmitting(true);
     try {
-      const response = await fetch("/api/posts", {
+      const response = await fetch(`${API_BASE_URL}/api/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -90,7 +91,7 @@ function Community() {
   // Like a post
   const handleLikePost = async (postId) => {
     try {
-      const response = await fetch(`/api/posts/${postId}/like`, {
+      const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/like`, {
         method: "POST"
       });
       if (response.ok) {
@@ -118,7 +119,7 @@ function Community() {
   // Fetch comments
   const fetchComments = async (postId) => {
     try {
-      const response = await fetch(`/api/posts/${postId}/comments`);
+      const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`);
       if (response.ok) {
         const data = await response.json();
         setCommentsMap(prev => ({ ...prev, [postId]: data }));
@@ -151,7 +152,7 @@ function Community() {
     }
 
     try {
-      const response = await fetch(`/api/posts/${postId}/comments`, {
+      const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

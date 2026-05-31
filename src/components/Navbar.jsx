@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { API_BASE_URL } from "../config";
 
 function Navbar() {
   /* MOBILE MENU */
@@ -57,7 +58,7 @@ function Navbar() {
     setSubmitting(true);
 
     try {
-      const response = await fetch("/api/applications", {
+      const response = await fetch(`${API_BASE_URL}/api/applications`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

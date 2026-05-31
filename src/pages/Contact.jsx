@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
 import {
   FaWhatsapp,
   FaEnvelope,
@@ -10,6 +8,7 @@ import {
   FaMapMarkerAlt,
   FaPhoneAlt
 } from "react-icons/fa";
+import { API_BASE_URL } from "../config";
 
 function Contact() {
 
@@ -122,7 +121,7 @@ function Contact() {
     setStatus({ type: "", message: "" });
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

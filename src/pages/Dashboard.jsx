@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 import {
   FaUser,
   FaEnvelope,
@@ -162,7 +163,7 @@ function Dashboard() {
 
   const fetchEnrolledCourses = async (authToken) => {
     try {
-      const response = await fetch("/api/my-courses", {
+      const response = await fetch(`${API_BASE_URL}/api/my-courses`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -181,7 +182,7 @@ function Dashboard() {
 
   const fetchSnapTestHistory = async (authToken) => {
     try {
-      const response = await fetch("/api/my-snap-tests", {
+      const response = await fetch(`${API_BASE_URL}/api/my-snap-tests`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -200,7 +201,7 @@ function Dashboard() {
 
   const fetchAdminData = async (authToken) => {
     try {
-      const response = await fetch("/api/admin/data", {
+      const response = await fetch(`${API_BASE_URL}/api/admin/data`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -254,7 +255,7 @@ function Dashboard() {
   const handleSubmitQuiz = async () => {
     setSubmittingQuiz(true);
     try {
-      const response = await fetch("/api/snap-tests/submit", {
+      const response = await fetch(`${API_BASE_URL}/api/snap-tests/submit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -304,7 +305,7 @@ function Dashboard() {
         is_technical: courseForm.is_technical === "true"
       };
 
-      const response = await fetch("/api/admin/courses", {
+      const response = await fetch(`${API_BASE_URL}/api/admin/courses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -339,7 +340,7 @@ function Dashboard() {
   // Admin Post Status update handler
   const handleUpdatePostStatus = async (postId, newStatus) => {
     try {
-      const response = await fetch(`/api/admin/posts/${postId}/status`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/posts/${postId}/status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -366,7 +367,7 @@ function Dashboard() {
     setShowCommentsModal(true);
     setCommentsLoading(true);
     try {
-      const response = await fetch(`/api/posts/${postId}/comments`);
+      const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`);
       if (response.ok) {
         const data = await response.json();
         setSelectedPostComments(data);
@@ -384,7 +385,7 @@ function Dashboard() {
     if (!window.confirm("Are you sure you want to delete this comment?")) return;
 
     try {
-      const response = await fetch(`/api/admin/comments/${commentId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/admin/comments/${commentId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -28,7 +29,7 @@ function Courses() {
     }
 
     try {
-      const response = await fetch("/api/courses/enroll", {
+      const response = await fetch(`${API_BASE_URL}/api/courses/enroll`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +74,7 @@ function Courses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("/api/courses");
+        const response = await fetch(`${API_BASE_URL}/api/courses`);
         if (!response.ok) {
           throw new Error("Failed to load courses");
         }
@@ -125,7 +126,7 @@ function Courses() {
     setInquiryStatus({ type: "", message: "" });
 
     try {
-      const response = await fetch("/api/inquiries", {
+      const response = await fetch(`${API_BASE_URL}/api/inquiries`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

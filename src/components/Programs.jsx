@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaRobot, FaBrain, FaCode, FaDatabase, FaSearch } from "react-icons/fa";
+import { API_BASE_URL } from "../config";
 
 function Programs() {
   const [courses, setCourses] = useState([]);
@@ -16,7 +17,7 @@ function Programs() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch("/api/courses");
+        const response = await fetch(`${API_BASE_URL}/api/courses`);
         if (response.ok) {
           const data = await response.json();
           setCourses(data);
