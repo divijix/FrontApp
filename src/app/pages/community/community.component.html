@@ -1,13 +1,13 @@
 <div
-  class="bg-slate-50 dark:bg-[#080809] min-h-screen flex flex-col justify-between text-gray-800 dark:text-white transition-colors duration-250">
+  class="bg-slate-50 dark:bg-slate-900 min-h-screen flex flex-col justify-between text-gray-800 dark:text-white transition-colors duration-250">
   <div>
     <app-navbar />
 
     <!-- HERO HEADER -->
-    <header class="bg-black text-white py-16 md:py-24 px-5 md:px-10 text-center relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-r from-red-500/10 via-transparent to-zinc-500/10 opacity-70"></div>
+    <header class="bg-slate-950 text-white py-16 md:py-24 px-5 md:px-10 text-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-slate-500/10 opacity-70"></div>
       <div class="max-w-4xl mx-auto relative z-10 space-y-6">
-        <span class="text-[10px] bg-red-600 text-white font-extrabold tracking-widest uppercase px-3 py-1 rounded-full">
+        <span class="text-[10px] bg-blue-600 text-white font-extrabold tracking-widest uppercase px-3 py-1 rounded-full">
           Academy Forum
         </span>
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none">
@@ -18,7 +18,7 @@
         </p>
         <div class="pt-4">
           <button (click)="showModal = true"
-            class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold text-sm px-7 py-4 rounded-xl transition shadow-lg shadow-red-600/10 border-none cursor-pointer">
+            class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-7 py-4 rounded-xl transition shadow-lg shadow-blue-600/10 border-none cursor-pointer">
             <i class="fa-solid fa-plus"></i> Write a Post
           </button>
         </div>
@@ -29,17 +29,17 @@
     <main class="max-w-4xl mx-auto px-5 py-12 md:py-16">
       @if (loading) {
       <div class="flex justify-center items-center py-20">
-        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-red-600"></div>
+        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-600"></div>
       </div>
       } @else if (posts.length === 0) {
       <div
-        class="bg-white dark:bg-[#141416] rounded-3xl border border-slate-100 dark:border-zinc-800 p-12 text-center shadow-md">
+        class="bg-white dark:bg-slate-850 rounded-3xl border border-slate-100 dark:border-slate-750 p-12 text-center shadow-md">
         <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">No posts available yet</h3>
-        <p class="text-slate-500 dark:text-zinc-400 text-xs mb-6 max-w-sm mx-auto leading-5">
+        <p class="text-slate-550 dark:text-slate-400 text-xs mb-6 max-w-sm mx-auto leading-5">
           Be the first to start a conversation! Submit a post detailing your AI projects or coding queries.
         </p>
         <button (click)="showModal = true"
-          class="bg-black dark:bg-white dark:text-black hover:bg-slate-800 text-xs font-bold px-6 py-3 rounded-lg transition border-none cursor-pointer">
+          class="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-slate-800 text-xs font-bold px-6 py-3 rounded-lg transition border-none cursor-pointer">
           Write First Post
         </button>
       </div>
@@ -47,20 +47,20 @@
       <div class="space-y-6">
         @for (post of posts; track post.id) {
         <div
-          class="bg-white dark:bg-[#141416] rounded-[2rem] border border-slate-100 dark:border-zinc-800 p-6 md:p-8 shadow-md hover:shadow-lg transition duration-300">
+          class="bg-white dark:bg-slate-850 rounded-[2rem] border border-slate-100 dark:border-slate-750 p-6 md:p-8 shadow-md hover:shadow-lg transition duration-300">
           <div
-            class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-50 dark:border-zinc-800/80 pb-4 mb-4">
+            class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-50 dark:border-slate-855 pb-4 mb-4">
             <div class="flex items-center gap-3">
               <div
-                class="w-9 h-9 rounded-full bg-red-50 dark:bg-zinc-800 text-red-600 dark:text-red-400 flex items-center justify-center font-bold text-xs shrink-0 uppercase">
+                class="w-9 h-9 rounded-full bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-sky-400 flex items-center justify-center font-bold text-xs shrink-0 uppercase">
                 {{post.author_name.charAt(0)}}
               </div>
               <div class="text-left">
                 <h4 class="font-bold text-slate-800 dark:text-white text-sm leading-none">{{post.author_name}}</h4>
-                <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-semibold">{{post.author_email}}</span>
+                <span class="text-[10px] text-slate-450 dark:text-slate-400 font-semibold">{{post.author_email}}</span>
               </div>
             </div>
-            <div class="flex items-center gap-1.5 text-[10px] text-slate-455 dark:text-zinc-500 font-semibold">
+            <div class="flex items-center gap-1.5 text-[10px] text-slate-450 dark:text-slate-400 font-semibold">
               <i class="fa-regular fa-clock"></i>
               <span>{{formatDate(post.created_at)}}</span>
             </div>
@@ -68,26 +68,26 @@
 
           <h3 class="text-lg md:text-xl font-extrabold text-slate-900 dark:text-white mb-3 text-left">{{post.title}}
           </h3>
-          <p class="text-slate-600 dark:text-zinc-300 text-xs md:text-sm leading-6 whitespace-pre-wrap mb-6 text-left">
+          <p class="text-slate-605 dark:text-slate-300 text-xs md:text-sm leading-6 whitespace-pre-wrap mb-6 text-left">
             {{post.content}}</p>
 
           <!-- POST INTERACTIONS -->
-          <div class="flex items-center gap-4 border-t border-slate-50 dark:border-zinc-800/80 pt-4 text-xs font-bold">
+          <div class="flex items-center gap-4 border-t border-slate-50 dark:border-slate-800/80 pt-4 text-xs font-bold">
             <button (click)="handleLikePost(post.id)"
-              class="flex items-center gap-1.5 text-slate-500 dark:text-zinc-450 hover:text-red-500 transition-colors border-none bg-transparent cursor-pointer">
-              <i class="fa-solid fa-heart text-red-500"></i>
+              class="flex items-center gap-1.5 text-slate-500 dark:text-slate-450 hover:text-blue-600 transition-colors border-none bg-transparent cursor-pointer">
+              <i class="fa-solid fa-heart text-blue-600 dark:text-sky-500"></i>
               <span>{{post.likes || 0}} Likes</span>
             </button>
             <button (click)="handleToggleComments(post.id)"
-              class="flex items-center gap-1.5 text-slate-500 dark:text-zinc-450 hover:text-red-550 transition-colors border-none bg-transparent cursor-pointer">
-              <i class="fa-solid fa-comment text-red-400 dark:text-red-500"></i>
+              class="flex items-center gap-1.5 text-slate-500 dark:text-slate-450 hover:text-blue-600 transition-colors border-none bg-transparent cursor-pointer">
+              <i class="fa-solid fa-comment text-sky-400 dark:text-sky-500"></i>
               <span>{{expandedComments[post.id] ? "Hide Discussions" : "Discussions"}}</span>
             </button>
           </div>
 
           <!-- COMMENTS LIST & FORM -->
           @if (expandedComments[post.id]) {
-          <div class="mt-6 border-t border-slate-100 dark:border-zinc-800 pt-6 space-y-6">
+          <div class="mt-6 border-t border-slate-100 dark:border-slate-800 pt-6 space-y-6">
             <!-- Comments Feed -->
             <div class="space-y-4">
               <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-400 text-left">Student Discussions
@@ -95,16 +95,16 @@
               @if (!commentsMap[post.id] || commentsMap[post.id].length === 0) {
               <p class="text-xs text-slate-400 italic text-left">No replies yet. Start the discussion below.</p>
               } @else {
-              <div class="space-y-4 pl-3 border-l-2 border-slate-100 dark:border-zinc-800 text-left">
+              <div class="space-y-4 pl-3 border-l-2 border-slate-100 dark:border-slate-800 text-left">
                 @for (comment of commentsMap[post.id]; track comment.id) {
                 <div class="space-y-1">
                   <div class="flex items-center gap-2 text-xs">
                     <span class="font-bold text-slate-800 dark:text-white">{{comment.author_name}}</span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500">
+                    <span class="text-[10px] text-slate-400 dark:text-slate-500">
                       {{formatDateShort(comment.created_at)}}
                     </span>
                   </div>
-                  <p class="text-slate-600 dark:text-zinc-350 text-xs leading-5">{{comment.content}}</p>
+                  <p class="text-slate-600 dark:text-slate-350 text-xs leading-5">{{comment.content}}</p>
                 </div>
                 }
               </div>
@@ -113,22 +113,22 @@
 
             <!-- Comment Form -->
             <form [formGroup]="getCommentForm(post.id)" (ngSubmit)="handleSubmitComment(post.id)"
-              class="space-y-3 bg-slate-50 dark:bg-[#0D0D0E] p-4 rounded-2xl border border-slate-100/50 dark:border-zinc-800/80">
-              <p class="text-[10px] font-black uppercase tracking-wider text-slate-455 dark:text-zinc-400 text-left">
+              class="space-y-3 bg-slate-50 dark:bg-slate-900 p-4 rounded-2xl border border-slate-100/50 dark:border-slate-750">
+              <p class="text-[10px] font-black uppercase tracking-wider text-slate-450 dark:text-slate-400 text-left">
                 Reply to this thread</p>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="text-left">
                   <input type="text" placeholder="Your Name" formControlName="author_name"
-                    class="w-full border border-slate-200 dark:border-zinc-800 outline-none rounded-xl p-2.5 text-xs bg-white dark:bg-[#141416] text-gray-800 dark:text-white" />
+                    class="w-full border border-slate-200 dark:border-slate-750 outline-none rounded-xl p-2.5 text-xs bg-white dark:bg-slate-800 text-gray-800 dark:text-white" />
                   @if (getCommentForm(post.id).get('author_name')?.touched && getCommentForm(post.id).get('author_name')?.errors?.['required']) {
-                    <p class="text-red-500 text-[10px] mt-0.5 text-left">Name is required.</p>
+                    <p class="text-blue-600 text-[10px] mt-0.5 text-left">Name is required.</p>
                   }
                 </div>
                 <div class="text-left">
                   <input type="email" placeholder="Your Email" formControlName="author_email"
-                    class="w-full border border-slate-200 dark:border-zinc-800 outline-none rounded-xl p-2.5 text-xs bg-white dark:bg-[#141416] text-gray-800 dark:text-white" />
+                    class="w-full border border-slate-200 dark:border-slate-750 outline-none rounded-xl p-2.5 text-xs bg-white dark:bg-slate-800 text-gray-800 dark:text-white" />
                   @if (getCommentForm(post.id).get('author_email')?.touched && getCommentForm(post.id).get('author_email')?.errors) {
-                    <p class="text-red-500 text-[10px] mt-0.5 text-left font-medium">
+                    <p class="text-blue-600 text-[10px] mt-0.5 text-left font-medium">
                       @if (getCommentForm(post.id).get('author_email')?.errors?.['required']) {
                         Email is required.
                       } @else if (getCommentForm(post.id).get('author_email')?.errors?.['email']) {
@@ -141,14 +141,14 @@
               <div class="text-left">
                 <div class="relative">
                   <textarea placeholder="Add to the discussion..." formControlName="content" rows="2"
-                    class="w-full border border-slate-200 dark:border-zinc-800 outline-none rounded-xl p-3 text-xs bg-white dark:bg-[#141416] text-gray-800 dark:text-white resize-none pr-10"></textarea>
+                    class="w-full border border-slate-200 dark:border-slate-750 outline-none rounded-xl p-3 text-xs bg-white dark:bg-slate-800 text-gray-800 dark:text-white resize-none pr-10"></textarea>
                   <button type="submit"
-                    class="absolute right-3.5 bottom-4 p-2 bg-red-600 hover:bg-red-500 text-white rounded-lg transition border-none cursor-pointer">
+                    class="absolute right-3.5 bottom-4 p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition border-none cursor-pointer">
                     <i class="fa-solid fa-paper-plane text-[10px]"></i>
                   </button>
                 </div>
                 @if (getCommentForm(post.id).get('content')?.touched && getCommentForm(post.id).get('content')?.errors?.['required']) {
-                  <p class="text-red-500 text-[10px] mt-0.5 text-left">Comment content is required.</p>
+                  <p class="text-blue-600 text-[10px] mt-0.5 text-left">Comment content is required.</p>
                 }
               </div>
             </form>
@@ -167,36 +167,36 @@
   @if (showModal) {
   <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div
-      class="bg-white dark:bg-[#141416] w-full max-w-xl rounded-[2rem] p-8 shadow-2xl relative border border-slate-100 dark:border-zinc-800 max-h-[90vh] overflow-y-auto">
+      class="bg-white dark:bg-slate-850 w-full max-w-xl rounded-[2rem] p-8 shadow-2xl relative border border-slate-100 dark:border-slate-750 max-h-[90vh] overflow-y-auto">
       <button (click)="showModal = false"
-        class="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-full transition border-none bg-transparent cursor-pointer">
+        class="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition border-none bg-transparent cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
       <div class="mb-6 text-left">
         <h3 class="text-2xl font-extrabold text-slate-850 dark:text-white">Write a Community Post</h3>
-        <p class="text-xs text-slate-400 dark:text-zinc-400 mt-1">Submit your post. It will go live once reviewed by an
+        <p class="text-xs text-slate-400 dark:text-slate-400 mt-1">Submit your post. It will go live once reviewed by an
           admin.</p>
       </div>
 
       <form [formGroup]="postForm" (ngSubmit)="handleSubmit()" class="space-y-5 text-left">
         <!-- Author Name -->
         <div class="space-y-1.5">
-          <label class="text-xs font-bold text-slate-550 dark:text-zinc-400 uppercase tracking-wide">Your Name</label>
+          <label class="text-xs font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wide">Your Name</label>
           <input type="text" formControlName="author_name" placeholder="Enter your name"
-            class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-600 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400" />
+            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400" />
           @if (postForm.get('author_name')?.touched && postForm.get('author_name')?.errors?.['required']) {
-            <p class="text-red-500 text-xs mt-1">Name is required.</p>
+            <p class="text-blue-600 text-xs mt-1">Name is required.</p>
           }
         </div>
 
         <!-- Author Email -->
         <div class="space-y-1.5">
-          <label class="text-xs font-bold text-slate-555 dark:text-zinc-400 uppercase tracking-wide">Your Email</label>
+          <label class="text-xs font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wide">Your Email</label>
           <input type="email" formControlName="author_email" placeholder="Enter your email"
-            class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-650 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400" />
+            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400" />
           @if (postForm.get('author_email')?.touched && postForm.get('author_email')?.errors) {
-            <p class="text-red-500 text-xs mt-1">
+            <p class="text-blue-600 text-xs mt-1">
               @if (postForm.get('author_email')?.errors?.['required']) {
                 Email is required.
               } @else if (postForm.get('author_email')?.errors?.['email']) {
@@ -208,34 +208,34 @@
 
         <!-- Post Title -->
         <div class="space-y-1.5">
-          <label class="text-xs font-bold text-slate-555 dark:text-zinc-400 uppercase tracking-wide">Title</label>
+          <label class="text-xs font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wide">Title</label>
           <input type="text" formControlName="title"
             placeholder="e.g. Building an autonomous customer support agent"
-            class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-600 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400" />
+            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400" />
           @if (postForm.get('title')?.touched && postForm.get('title')?.errors?.['required']) {
-            <p class="text-red-500 text-xs mt-1">Title is required.</p>
+            <p class="text-blue-600 text-xs mt-1">Title is required.</p>
           }
         </div>
 
         <!-- Post Content -->
         <div class="space-y-1.5">
-          <label class="text-xs font-bold text-slate-555 dark:text-zinc-400 uppercase tracking-wide">Content</label>
+          <label class="text-xs font-bold text-slate-550 dark:text-slate-400 uppercase tracking-wide">Content</label>
           <textarea formControlName="content"
             placeholder="Describe your tech stack, post code snippets, or ask questions here..." rows="5"
-            class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-600 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400 resize-none"></textarea>
+            class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-750 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none rounded-xl p-3.5 text-sm text-gray-855 dark:text-white placeholder-gray-400 resize-none"></textarea>
           @if (postForm.get('content')?.touched && postForm.get('content')?.errors?.['required']) {
-            <p class="text-red-500 text-xs mt-1">Content is required.</p>
+            <p class="text-blue-600 text-xs mt-1">Content is required.</p>
           }
         </div>
 
         <!-- Actions -->
-        <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-zinc-800">
+        <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
           <button type="button" (click)="showModal = false"
-            class="border border-slate-200 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300 text-xs font-bold px-5 py-3 rounded-xl transition bg-transparent cursor-pointer">
+            class="border border-slate-200 dark:border-slate-750 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-zinc-300 text-xs font-bold px-5 py-3 rounded-xl transition bg-transparent cursor-pointer">
             Cancel
           </button>
           <button type="submit" [disabled]="submitting"
-            class="bg-red-650 hover:bg-red-700 text-white text-xs font-bold px-6 py-3 rounded-xl transition shadow-md shadow-indigo-600/10 border-none cursor-pointer disabled:opacity-50">
+            class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-xl transition shadow-md shadow-blue-600/10 border-none cursor-pointer disabled:opacity-50">
             {{submitting ? 'Submitting...' : 'Submit Post'}}
           </button>
         </div>
