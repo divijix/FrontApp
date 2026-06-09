@@ -1,18 +1,18 @@
-<section class="relative px-6 md:px-16 py-24 bg-white dark:bg-[#0A0A0B] text-gray-800 dark:text-white transition-colors duration-250">
+<section class="relative px-6 md:px-16 py-24 bg-white dark:bg-slate-900 text-gray-800 dark:text-white transition-colors duration-250">
   
   <!-- Subtle Grid Background -->
   <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808005_1px,transparent_1px),linear-gradient(to_bottom,#80808005_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
 
-  <div class="relative max-w-7xl mx-auto bg-gradient-to-br from-gray-950 via-slate-900 to-gray-950 dark:from-[#111112] dark:via-[#141416] dark:to-[#0D0D0E] border border-gray-800/80 dark:border-zinc-800/80 rounded-[2.5rem] p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between shadow-2xl overflow-hidden">
+  <div class="relative max-w-7xl mx-auto bg-gradient-to-br from-slate-950 via-slate-900 to-slate-955 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 border border-slate-800/80 dark:border-slate-800/80 rounded-[2.5rem] p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between shadow-2xl overflow-hidden">
     
     <!-- Glowing background decorative spheres -->
-    <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-red-600/10 blur-[100px] pointer-events-none"></div>
-    <div class="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-rose-500/10 blur-[100px] pointer-events-none"></div>
+    <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-blue-600/10 blur-[100px] pointer-events-none"></div>
+    <div class="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-sky-500/10 blur-[100px] pointer-events-none"></div>
 
     <!-- LEFT -->
     <div class="text-left lg:max-w-2xl relative z-10 space-y-6">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-red-500/20">
-        <span class="text-xs font-bold tracking-widest text-red-400 uppercase">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
+        <span class="text-xs font-bold tracking-widest text-sky-400 uppercase">
           Start Today
         </span>
       </div>
@@ -28,8 +28,8 @@
     <!-- BUTTONS -->
     <div class="flex gap-4 mt-10 lg:mt-0 flex-wrap relative z-10">
       <button (click)="applyClicked.emit()" 
-        class="relative group overflow-hidden bg-gradient-to-r from-red-600 to-rose-600 text-white px-8 py-4 rounded-2xl hover:shadow-[0_0_30px_rgba(239,68,68,0.4)] transition-all duration-300 font-bold text-base cursor-pointer border-none">
-        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-rose-600 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+        class="relative group overflow-hidden bg-gradient-to-r from-blue-600 to-sky-600 text-white px-8 py-4 rounded-2xl hover:shadow-[0_0_30px_rgba(37,99,235,0.4)] transition-all duration-300 font-bold text-base cursor-pointer border-none">
+        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-sky-600 to-blue-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
         <span class="relative z-10">Apply Now</span>
       </button>
       <button (click)="demoClicked.emit()" 

@@ -4,7 +4,7 @@ import { Injectable, signal, effect } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
-  themeSignal = signal<'light' | 'dark'>('dark');
+  themeSignal = signal<'light' | 'dark'>('light');
 
   constructor() {
     // Determine initial theme on instantiation

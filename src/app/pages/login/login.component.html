@@ -1,10 +1,10 @@
 <section
-  class="min-h-screen bg-[#f8f8f8] dark:bg-[#080809] flex justify-center items-center px-5 py-10 text-gray-800 dark:text-white transition-colors duration-250">
+  class="min-h-screen bg-[#f8f8f8] dark:bg-slate-900 flex justify-center items-center px-5 py-10 text-gray-800 dark:text-white transition-colors duration-250">
   <div
-    class="bg-white dark:bg-[#141416] border border-gray-100 dark:border-zinc-800/85 w-full max-w-md rounded-3xl shadow-2xl p-8 md:p-10 relative">
+    class="bg-white dark:bg-slate-850 border border-gray-100 dark:border-slate-750 w-full max-w-md rounded-3xl shadow-2xl p-8 md:p-10 relative">
     <!-- BACK HOME LINK -->
     <button (click)="goHome()"
-      class="absolute top-6 left-6 text-xs font-semibold hover:text-red-500 transition border-none bg-transparent cursor-pointer text-gray-400 dark:text-zinc-500 flex items-center gap-1">
+      class="absolute top-6 left-6 text-xs font-semibold hover:text-blue-600 transition border-none bg-transparent cursor-pointer text-gray-400 dark:text-slate-500 flex items-center gap-1">
       <i class="fa-solid fa-arrow-left"></i> Home
     </button>
 
@@ -13,7 +13,7 @@
       <h1 class="text-4xl md:text-5xl font-bold text-gray-955 dark:text-white">
         {{isLogin ? 'Welcome Back' : 'Create Account'}}
       </h1>
-      <p class="text-gray-500 dark:text-zinc-400 mt-4 text-base md:text-lg">
+      <p class="text-gray-550 dark:text-slate-400 mt-4 text-base md:text-lg">
         {{isLogin ? 'Login to continue learning AI' : 'Join Divijix Technology'}}
       </p>
     </div>
@@ -21,7 +21,7 @@
     <!-- ERROR DISPLAY -->
     @if (error) {
     <div
-      class="bg-red-50 text-red-655 dark:bg-red-950/20 dark:text-red-400 p-4 rounded-2xl mb-6 text-center text-sm font-semibold border border-red-200 dark:border-red-900/50">
+      class="bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-sky-400 p-4 rounded-2xl mb-6 text-center text-sm font-semibold border border-blue-200 dark:border-blue-900/50">
       {{error}}
     </div>
     }
@@ -31,26 +31,26 @@
       <!-- NAME -->
       @if (!isLogin) {
       <div class="text-left">
-        <label class="block mb-2 font-semibold text-lg text-gray-700 dark:text-zinc-300">
+        <label class="block mb-2 font-semibold text-lg text-gray-700 dark:text-slate-300">
           Full Name *
         </label>
         <input type="text" formControlName="name" placeholder="Enter your full name"
-          class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-2xl px-5 py-4 text-lg outline-none focus:border-red-500 text-gray-855 dark:text-white placeholder-gray-400" />
+          class="w-full bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-750 rounded-2xl px-5 py-4 text-lg outline-none focus:border-blue-500 text-gray-855 dark:text-white placeholder-gray-400" />
         @if (loginForm.get('name')?.touched && loginForm.get('name')?.errors?.['required']) {
-        <p class="text-red-500 text-sm mt-1">Full name is required.</p>
+        <p class="text-blue-600 text-sm mt-1">Full name is required.</p>
         }
       </div>
       }
 
       <!-- EMAIL -->
       <div class="text-left">
-        <label class="block mb-2 font-semibold text-lg text-gray-700 dark:text-zinc-300">
+        <label class="block mb-2 font-semibold text-lg text-gray-700 dark:text-slate-300">
           Email *
         </label>
         <input type="email" formControlName="email" placeholder="Enter your email"
-          class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-2xl px-5 py-4 text-lg outline-none focus:border-red-500 text-gray-855 dark:text-white placeholder-gray-400" />
+          class="w-full bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-750 rounded-2xl px-5 py-4 text-lg outline-none focus:border-blue-500 text-gray-855 dark:text-white placeholder-gray-400" />
         @if (loginForm.get('email')?.touched && loginForm.get('email')?.errors) {
-        <p class="text-red-500 text-sm mt-1">
+        <p class="text-blue-600 text-sm mt-1">
           @if (loginForm.get('email')?.errors?.['required']) {
           Email is required.
           } @else if (loginForm.get('email')?.errors?.['email']) {
@@ -62,13 +62,13 @@
 
       <!-- PASSWORD -->
       <div class="text-left">
-        <label class="block mb-2 font-semibold text-lg text-gray-700 dark:text-zinc-300">
+        <label class="block mb-2 font-semibold text-lg text-gray-700 dark:text-slate-300">
           Password *
         </label>
         <input type="password" formControlName="password" placeholder="Enter password"
-          class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-2xl px-5 py-4 text-lg outline-none focus:border-red-500 text-gray-855 dark:text-white placeholder-gray-400" />
+          class="w-full bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-750 rounded-2xl px-5 py-4 text-lg outline-none focus:border-blue-500 text-gray-855 dark:text-white placeholder-gray-400" />
         @if (loginForm.get('password')?.touched && loginForm.get('password')?.errors) {
-        <p class="text-red-500 text-sm mt-1">
+        <p class="text-blue-600 text-sm mt-1">
           @if (loginForm.get('password')?.errors?.['required']) {
           Password is required.
           } @else if (loginForm.get('password')?.errors?.['minlength']) {
@@ -80,7 +80,7 @@
 
       <!-- BUTTON -->
       <button type="submit" [disabled]="loading"
-        class="w-full bg-red-600 text-white py-4 rounded-2xl hover:bg-red-700 transition duration-300 font-semibold text-xl border-none cursor-pointer disabled:opacity-50">
+        class="w-full bg-blue-600 text-white py-4 rounded-2xl hover:bg-blue-500 transition duration-300 font-semibold text-xl border-none cursor-pointer disabled:opacity-50">
         {{loading ? (isLogin ? 'Logging in...' : 'Creating Account...') : (isLogin ? 'Login' : 'Create Account')}}
       </button>
     </form>
@@ -88,18 +88,18 @@
     <!-- TOGGLE -->
     <div class="text-center mt-8">
       @if (isLogin) {
-      <p class="text-gray-600 dark:text-zinc-400 text-lg">
+      <p class="text-gray-600 dark:text-slate-400 text-lg">
         Don't have an account?
         <button (click)="toggleMode()"
-          class="text-red-600 font-bold border-none bg-transparent cursor-pointer text-lg inline ml-1 hover:underline">
+          class="text-blue-600 font-bold border-none bg-transparent cursor-pointer text-lg inline ml-1 hover:underline">
           Sign Up
         </button>
       </p>
       } @else {
-      <p class="text-gray-600 dark:text-zinc-400 text-lg">
+      <p class="text-gray-600 dark:text-slate-400 text-lg">
         Already have an account?
         <button (click)="toggleMode()"
-          class="text-red-600 font-bold border-none bg-transparent cursor-pointer text-lg inline ml-1 hover:underline">
+          class="text-blue-600 font-bold border-none bg-transparent cursor-pointer text-lg inline ml-1 hover:underline">
           Sign In
         </button>
       </p>
