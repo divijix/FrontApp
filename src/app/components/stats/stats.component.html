@@ -1,0 +1,47 @@
+<section class="relative px-6 md:px-16 py-24 bg-white dark:bg-[#0A0A0B] overflow-hidden text-gray-800 dark:text-white transition-colors duration-250">
+  
+  <!-- Subtle Gradient Background -->
+  <div class="absolute top-0 right-0 w-80 h-80 rounded-full bg-red-500/5 dark:bg-red-500/[0.02] blur-[80px] pointer-events-none"></div>
+
+  <!-- TITLE -->
+  <div class="text-center mb-16 space-y-4">
+    <p class="text-red-600 dark:text-red-500 font-extrabold text-xs md:text-sm tracking-widest uppercase">
+      Why AI Matters
+    </p>
+    <h2 class="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-950 dark:text-white">
+      The AI Revolution
+    </h2>
+    <div class="w-12 h-1 bg-red-600 dark:bg-red-500 mx-auto rounded-full"></div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    @for (item of courses; track $index) {
+      <div class="group relative bg-[#f9fafb] dark:bg-[#111112] p-8 md:p-10 rounded-[2rem] border border-gray-200/60 dark:border-zinc-800/80 shadow-sm hover:shadow-[0_20px_50px_rgba(239,68,68,0.05)] hover:border-red-500/30 dark:hover:border-red-500/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
+        
+        <!-- Hover Glow Border -->
+        <div class="absolute -inset-px rounded-[2rem] bg-gradient-to-tr from-red-600 to-rose-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"></div>
+
+        <div>
+          <!-- NUMBER -->
+          <div class="flex items-center justify-between">
+            <h1 class="text-5xl font-black bg-gradient-to-r from-red-600 to-rose-500 bg-clip-text text-transparent dark:from-red-500 dark:to-rose-400 group-hover:scale-105 transition-transform duration-300">
+              {{item.number}}
+            </h1>
+            <span class="text-red-600/10 dark:text-red-500/10 text-4xl font-extrabold select-none"><i class="fa-solid fa-chart-line"></i></span>
+          </div>
+
+          <!-- TITLE -->
+          <h3 class="text-xl md:text-2xl font-bold mt-8 leading-snug text-gray-950 dark:text-white">
+            {{item.title}}
+          </h3>
+
+          <!-- DESCRIPTION -->
+          <p class="text-gray-600 dark:text-zinc-400 mt-4 leading-relaxed text-sm md:text-base">
+            {{item.description}}
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+</section>

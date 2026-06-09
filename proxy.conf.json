@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://internshipapp-xi.vercel.app",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

@@ -1,0 +1,231 @@
+<div class="bg-[#f5f5f5] dark:bg-[#080809] min-h-screen text-gray-800 dark:text-white transition-colors duration-250 overflow-hidden">
+  <app-navbar />
+
+  <!-- HERO -->
+  <section class="text-center py-20 md:py-28 px-5 md:px-10">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-gray-955 dark:text-white">
+      Let's Connect
+    </h1>
+    <p class="text-gray-605 dark:text-zinc-400 text-base md:text-lg leading-7 md:leading-8 max-w-3xl mx-auto">
+      Have a question about our programs? Ready to apply? Want to collaborate? We'd love to hear from you.
+    </p>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="px-5 md:px-10 pb-20 md:pb-28">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
+      <!-- LEFT SIDE -->
+      <div>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-12 text-gray-955 dark:text-white">
+          Get in Touch
+        </h1>
+
+        <!-- CONTACT CARDS -->
+        <div class="space-y-8">
+          @for (element of contactInfo; track $index) {
+            <div class="bg-white dark:bg-[#141416] border border-gray-100 dark:border-zinc-800/80 p-6 md:p-8 rounded-3xl shadow hover:shadow-2xl transition duration-300 flex flex-col sm:flex-row gap-6 items-start">
+              <!-- ICON -->
+              <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-black dark:bg-zinc-800 text-white flex items-center justify-center text-xl md:text-2xl shrink-0">
+                <i [class]="element.iconClass"></i>
+              </div>
+              <!-- TEXT -->
+              <div>
+                <h1 class="text-xl md:text-2xl font-bold mb-2 text-gray-955 dark:text-white">
+                  {{element.title}}
+                </h1>
+                <p class="text-gray-700 dark:text-zinc-305 mb-2 break-all font-medium">
+                  {{element.value}}
+                </p>
+                <p class="text-gray-500 dark:text-zinc-500 text-sm md:text-base">
+                  {{element.subtitle}}
+                </p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- LOCATION -->
+        <div class="mt-16">
+          <p class="tracking-widest text-gray-500 mb-5 text-sm font-semibold uppercase">
+            OUR LOCATION
+          </p>
+          <p class="text-gray-700 dark:text-zinc-350 leading-7 md:leading-8">
+            Jaipur Rajasthan
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE FORM -->
+      <div class="bg-white dark:bg-[#141416] border border-gray-100 dark:border-zinc-800/85 p-6 md:p-10 rounded-3xl shadow">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-955 dark:text-white">
+          Send a Message
+        </h1>
+        <p class="text-gray-500 dark:text-zinc-400 mb-10">
+          We'll get back to you as soon as possible.
+        </p>
+
+        @if (status.message) {
+          <div
+            [ngClass]="{
+              'bg-green-50 text-green-600 border-green-200': status.type === 'success',
+              'bg-red-50 text-red-600 border-red-200': status.type === 'error'
+            }"
+            class="p-4 rounded-2xl mb-6 text-center text-sm font-semibold border"
+          >
+            {{status.message}}
+          </div>
+        }
+
+        <!-- FORM -->
+        <form [formGroup]="contactForm" (ngSubmit)="handleSubmit()" class="space-y-8">
+          <!-- ROW 1 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="text-left">
+              <label class="block mb-3 font-medium text-sm text-gray-700 dark:text-zinc-300">
+                Full Name *
+              </label>
+              <input
+                type="text"
+                formControlName="name"
+                placeholder="John Doe"
+                class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-xl px-5 py-4 outline-none focus:border-red-655 focus:ring-1 focus:ring-red-500 text-sm text-gray-855 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+              />
+              @if (contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">Full Name is required.</p>
+              }
+            </div>
+            <div class="text-left">
+              <label class="block mb-3 font-medium text-sm text-gray-700 dark:text-zinc-300">
+                Phone *
+              </label>
+              <input
+                type="text"
+                formControlName="phone"
+                placeholder="9876543210"
+                class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-xl px-5 py-4 outline-none focus:border-red-655 focus:ring-1 focus:ring-red-500 text-sm text-gray-855 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+              />
+              @if (contactForm.get('phone')?.touched && contactForm.get('phone')?.errors) {
+                <p class="text-red-500 text-xs mt-1">
+                  @if (contactForm.get('phone')?.errors?.['required']) {
+                    Phone number is required.
+                  } @else if (contactForm.get('phone')?.errors?.['pattern']) {
+                    Please enter a valid 10-digit phone number.
+                  }
+                </p>
+              }
+            </div>
+          </div>
+
+          <!-- ROW 2 -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="text-left">
+              <label class="block mb-3 font-medium text-sm text-gray-700 dark:text-zinc-300">
+                Email *
+              </label>
+              <input
+                type="email"
+                formControlName="email"
+                placeholder="john@example.com"
+                class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-xl px-5 py-4 outline-none focus:border-red-655 focus:ring-1 focus:ring-red-500 text-sm text-gray-855 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+              />
+              @if (contactForm.get('email')?.touched && contactForm.get('email')?.errors) {
+                <p class="text-red-500 text-xs mt-1">
+                  @if (contactForm.get('email')?.errors?.['required']) {
+                    Email address is required.
+                  } @else if (contactForm.get('email')?.errors?.['email']) {
+                    Please enter a valid email address.
+                  }
+                </p>
+              }
+            </div>
+            <div class="text-left">
+              <label class="block mb-3 font-medium text-sm text-gray-700 dark:text-zinc-300">
+                Subject *
+              </label>
+              <input
+                type="text"
+                formControlName="subject"
+                placeholder="General Inquiry"
+                class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-xl px-5 py-4 outline-none focus:border-red-655 focus:ring-1 focus:ring-red-500 text-sm text-gray-855 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+              />
+              @if (contactForm.get('subject')?.touched && contactForm.get('subject')?.errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">Subject is required.</p>
+              }
+            </div>
+          </div>
+
+          <!-- MESSAGE -->
+          <div class="text-left">
+            <label class="block mb-3 font-medium text-sm text-gray-700 dark:text-zinc-300">
+              Message *
+            </label>
+            <textarea
+              rows="6"
+              formControlName="message"
+              placeholder="How can we help you?"
+              class="w-full bg-white dark:bg-[#0D0D0E] border border-gray-300 dark:border-zinc-800 rounded-xl px-5 py-4 outline-none resize-none focus:border-red-655 focus:ring-1 focus:ring-red-500 text-sm text-gray-855 dark:text-white placeholder-gray-400 dark:placeholder-zinc-500"
+            ></textarea>
+            @if (contactForm.get('message')?.touched && contactForm.get('message')?.errors?.['required']) {
+              <p class="text-red-500 text-xs mt-1">Message is required.</p>
+            }
+          </div>
+
+          <!-- BUTTON -->
+          <button
+            type="submit"
+            [disabled]="loading"
+            class="w-full bg-black text-white dark:bg-white dark:text-black py-4 md:py-5 rounded-xl hover:bg-gray-800 dark:hover:bg-zinc-200 transition font-bold tracking-widest border-none cursor-pointer disabled:opacity-50"
+          >
+            {{loading ? 'SENDING...' : 'SEND MESSAGE'}}
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="bg-black text-white text-center py-20 md:py-28 px-5 md:px-10">
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+      Book a Free Counseling Session
+    </h1>
+    <p class="text-gray-450 text-base md:text-lg leading-7 md:leading-8 max-w-2xl mx-auto">
+      30-minute session with our admissions advisor to discuss your career path in AI.
+    </p>
+    <button class="mt-10 bg-white text-black px-6 md:px-10 py-3 md:py-4 rounded-xl font-semibold hover:bg-gray-200 transition border-none cursor-pointer">
+      BOOK NOW
+    </button>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="px-5 md:px-10 py-20 md:py-28 bg-[#f5f5f5] dark:bg-[#080809] border-t border-gray-150 dark:border-zinc-900 transition-colors duration-250">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+      <!-- LEFT -->
+      <div>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-10 text-gray-955 dark:text-white">
+          Find Us
+        </h1>
+        <p class="text-gray-700 dark:text-zinc-300 leading-7 md:leading-8 mb-10">
+          Divijix academy <br />
+          Jaipur, Rajasthan
+        </p>
+        <div class="space-y-5">
+          <div class="flex items-center gap-4">
+            <i class="fa-solid fa-map-location-dot text-red-500 text-xl"></i>
+            <p class="font-medium">8009799550</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <i class="fa-solid fa-phone text-red-500 text-xl"></i>
+            <p class="font-medium">8009799550</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT MAP placeholder matching React style -->
+      <div class="bg-gray-300 dark:bg-zinc-800 h-[250px] md:h-[400px] rounded-3xl shadow-xl flex items-center justify-center">
+        <i class="fa-solid fa-map-marked-alt text-gray-400 dark:text-zinc-600 text-6xl"></i>
+      </div>
+    </div>
+  </section>
+
+  <app-footer />
+</div>

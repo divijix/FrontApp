@@ -1,0 +1,951 @@
+<div class="bg-[#f8fafc] dark:bg-[#080809] min-h-screen flex relative overflow-x-hidden text-gray-850 dark:text-white transition-colors duration-250">
+  
+  <!-- DESKTOP SIDEBAR -->
+  <aside class="hidden md:flex flex-col w-72 bg-[#0b0f19] text-gray-400 p-6 min-h-screen border-r border-gray-800/40 shrink-0">
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </aside>
+
+  <!-- MOBILE DRAWER SIDEBAR -->
+  <div *ngIf="sidebarOpen" class="fixed inset-0 z-50 flex md:hidden">
+    <!-- Overlay -->
+    <div (click)="sidebarOpen = false" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+    <!-- Sidebar Drawer -->
+    <div class="relative flex flex-col w-72 bg-[#0b0f19] text-gray-400 p-6 min-h-screen z-10 border-r border-gray-800">
+      <button (click)="sidebarOpen = false" class="absolute top-5 right-5 text-gray-400 hover:text-white p-2 border-none bg-transparent cursor-pointer">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <div class="flex-1 flex flex-col min-w-0">
+    
+    <!-- MOBILE HEADER TOPBAR -->
+    <header class="flex md:hidden items-center justify-between px-6 py-4 bg-white dark:bg-[#0d0d0e] border-b border-slate-100 dark:border-zinc-900 shadow-sm transition-colors duration-250">
+      <div class="flex items-center gap-3">
+        <button (click)="sidebarOpen = true" class="p-2.5 text-slate-650 dark:text-zinc-405 hover:bg-slate-50 dark:hover:bg-zinc-800 rounded-xl border border-slate-100 dark:border-zinc-800 transition cursor-pointer bg-transparent">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+        <h1 class="font-extrabold text-slate-800 dark:text-white text-sm tracking-tight">
+          {{ user?.role === 'admin' ? 'Admin Console' : 'Student Portal' }}
+        </h1>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-red-500 to-indigo-500 text-white flex items-center justify-center font-bold text-xs">
+        {{ user?.name?.charAt(0) }}
+      </div>
+    </header>
+
+    <!-- PAGE DESKTOP HEADER HERO -->
+    <header class="hidden md:block bg-white dark:bg-[#0d0d0e] border-b border-slate-100 dark:border-zinc-900 py-6 px-10 transition-colors duration-250">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="text-left">
+          <span class="text-[10px] text-red-600 dark:text-red-500 font-extrabold tracking-widest uppercase">
+            {{ user?.role === 'admin' ? 'System Control' : 'Personal Workspace' }}
+          </span>
+          <h1 class="text-2xl font-black text-slate-800 dark:text-white mt-0.5">
+            {{ user?.role === 'admin' ? 'Admin Command Console' : 'Welcome Back, ' + firstName + '!' }}
+          </h1>
+        </div>
+        <div class="flex items-center gap-4 bg-slate-50 dark:bg-zinc-800 border border-slate-100 dark:border-zinc-850 rounded-2xl px-5 py-2.5">
+          <span class="text-slate-600 dark:text-zinc-300 font-bold text-xs">
+            Status: <span class="text-green-600 dark:text-green-500">Active</span>
+          </span>
+          <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-ping"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTAINER CONTENT -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-8 md:p-10 lg:p-12">
+      <div *ngIf="user?.role === 'admin'; else studentDashboard">
+        <!-- ADMIN PANELS -->
+        <ng-container *ngTemplateOutlet="adminDashboardContent"></ng-container>
+      </div>
+      <ng-template #studentDashboard>
+        <!-- STUDENT PANELS -->
+        <ng-container *ngTemplateOutlet="studentDashboardContent"></ng-container>
+      </ng-template>
+    </main>
+  </div>
+</div>
+
+<!-- ================= SIDEBAR CONTENT TEMPLATE ================= -->
+<ng-template #sidebarContent>
+  <div class="flex flex-col h-full text-left">
+    <!-- LOGO AREA -->
+    <div class="flex items-center gap-3 mb-8 px-2">
+      <span class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600 to-indigo-650 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-red-500/20">
+        D
+      </span>
+      <div>
+        <h1 class="font-extrabold text-white text-base leading-none">Divijix Academy</h1>
+        <span class="text-[10px] text-gray-500 tracking-wider font-semibold uppercase">Management Portal</span>
+      </div>
+    </div>
+
+    <!-- PROFILE HEADER -->
+    <div class="bg-[#121824] rounded-2xl p-4 mb-6 border border-gray-800/40 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-violet-500 text-white flex items-center justify-center font-bold text-sm shrink-0">
+        {{ user?.name?.charAt(0) }}
+      </div>
+      <div class="truncate">
+        <p class="text-white text-xs font-bold truncate">{{ user?.name }}</p>
+        <p class="text-[10px] text-gray-500 truncate">{{ user?.email }}</p>
+      </div>
+    </div>
+
+    <!-- NAVIGATION ITEMS -->
+    <div class="flex-1 space-y-1.5 overflow-y-auto">
+      <ng-container *ngIf="user?.role === 'admin'; else studentNav">
+        <p class="text-[10px] font-bold text-gray-600 uppercase tracking-widest px-2 mb-2">SYSTEM AUDITS</p>
+        <button
+          *ngFor="let tab of [
+            { id: 'users', label: 'Registered Users', icon: 'fa-solid fa-users' },
+            { id: 'courses', label: 'Manage Courses', icon: 'fa-solid fa-book-open' },
+            { id: 'enrollments', label: 'Enrollments', icon: 'fa-solid fa-graduation-cap' },
+            { id: 'snapTests', label: 'Snap Test Scores', icon: 'fa-solid fa-circle-check' },
+            { id: 'posts', label: 'Community Posts', icon: 'fa-solid fa-comments' },
+            { id: 'applications', label: 'Applications', icon: 'fa-solid fa-file-invoice' },
+            { id: 'contacts', label: 'Contact Submissions', icon: 'fa-solid fa-envelope' },
+            { id: 'inquiries', label: 'Course Inquiries', icon: 'fa-solid fa-circle-info' }
+          ]"
+          (click)="activeTab = tab.id; sidebarOpen = false"
+          [ngClass]="{
+            'bg-red-600 text-white shadow-lg shadow-red-600/10': activeTab === tab.id,
+            'text-gray-400 hover:text-white hover:bg-gray-800/40': activeTab !== tab.id
+          }"
+          class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-xs font-bold tracking-wide transition-all border-none bg-transparent cursor-pointer text-left"
+        >
+          <i [class]="tab.icon + ' text-sm shrink-0'"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </ng-container>
+
+      <ng-template #studentNav>
+        <p class="text-[10px] font-bold text-gray-600 uppercase tracking-widest px-2 mb-2">STUDENT CENTER</p>
+        <button
+          *ngFor="let tab of [
+            { id: 'overview', label: 'My Enrolled Courses', icon: 'fa-solid fa-book-open' },
+            { id: 'snapTest', label: 'AI & Tech Snap Test', icon: 'fa-solid fa-lightbulb' },
+            { id: 'community', label: 'Learning Community', icon: 'fa-solid fa-users' }
+          ]"
+          (click)="studentTab = tab.id; sidebarOpen = false"
+          [ngClass]="{
+            'bg-red-600 text-white shadow-lg shadow-red-600/10': studentTab === tab.id,
+            'text-gray-400 hover:text-white hover:bg-gray-800/40': studentTab !== tab.id
+          }"
+          class="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-xs font-bold tracking-wide transition-all border-none bg-transparent cursor-pointer text-left"
+        >
+          <i [class]="tab.icon + ' text-sm shrink-0'"></i>
+          <span>{{ tab.label }}</span>
+        </button>
+      </ng-template>
+    </div>
+
+    <!-- BOTTOM LOGOUT -->
+    <div class="pt-6 border-t border-gray-800/60 mt-auto">
+      <button
+        routerLink="/"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition mb-2 border-none bg-transparent cursor-pointer"
+      >
+        <i class="fa-solid fa-house text-sm shrink-0"></i> Back to Website
+      </button>
+      <button
+        (click)="handleLogout()"
+        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition border-none bg-transparent cursor-pointer"
+      >
+        <i class="fa-solid fa-right-from-bracket text-sm shrink-0"></i> Log Out
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ================= ADMIN DASHBOARD TEMPLATE ================= -->
+<ng-template #adminDashboardContent>
+  <div *ngIf="adminLoading" class="flex justify-center items-center py-32">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600"></div>
+  </div>
+
+  <div *ngIf="adminError" class="bg-red-50/50 dark:bg-red-950/20 text-red-600 dark:text-red-400 p-8 rounded-3xl text-center border border-red-200 dark:border-red-900/50 shadow-sm max-w-lg mx-auto mt-10">
+    <i class="fa-solid fa-circle-info mx-auto text-4xl mb-4"></i>
+    <h2 class="text-xl font-bold mb-2">Access Denied</h2>
+    <p>{{adminError}}</p>
+    <button (click)="handleLogout()" class="mt-5 bg-red-650 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-red-700 transition border-none cursor-pointer">
+      Sign In Again
+    </button>
+  </div>
+
+  <div *ngIf="!adminLoading && !adminError" class="space-y-10">
+    <!-- STATS GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        *ngFor="let stat of [
+          { label: 'Total Students', value: adminData.users.length - 1, icon: 'fa-solid fa-user', bg: 'from-indigo-500 to-indigo-600' },
+          { label: 'Active Courses', value: adminData.courses.length, icon: 'fa-solid fa-book-open', bg: 'from-violet-500 to-violet-600' },
+          { label: 'Course Enrollments', value: adminData.enrollments.length, icon: 'fa-solid fa-graduation-cap', bg: 'from-emerald-500 to-emerald-600' },
+          { label: 'Admissions Applied', value: adminData.applications.length, icon: 'fa-solid fa-envelope', bg: 'from-fuchsia-500 to-fuchsia-600' }
+        ]"
+        class="p-6 rounded-[2rem] bg-gradient-to-br {{stat.bg}} text-white shadow-lg shadow-indigo-500/5 hover:shadow-xl hover:-translate-y-1 transition duration-300 relative overflow-hidden flex items-center gap-5"
+      >
+        <div class="absolute -right-4 -bottom-4 w-28 h-28 bg-white/10 rounded-full blur-xl"></div>
+        <div class="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center text-xl shrink-0">
+          <i [class]="stat.icon"></i>
+        </div>
+        <div class="relative z-10 text-left">
+          <p class="text-white/70 text-[10px] font-bold uppercase tracking-wider mb-0.5">{{stat.label}}</p>
+          <h3 class="text-3xl font-black">{{stat.value}}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB TITLE AND ACTION BANNER -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200/80 dark:border-zinc-800/80 pb-5">
+      <div class="text-left">
+        <h2 class="text-xl font-extrabold text-slate-800 dark:text-white uppercase tracking-tight">
+          <span *ngIf="activeTab === 'users'">System Users Directory</span>
+          <span *ngIf="activeTab === 'courses'">Published Programs</span>
+          <span *ngIf="activeTab === 'enrollments'">Student Enrollments Log</span>
+          <span *ngIf="activeTab === 'snapTests'">Snap Assessment Scores</span>
+          <span *ngIf="activeTab === 'posts'">Community Forums Moderation</span>
+          <span *ngIf="activeTab === 'applications'">Admissions Applications Inbox</span>
+          <span *ngIf="activeTab === 'contacts'">General Enquiries</span>
+          <span *ngIf="activeTab === 'inquiries'">Program Specific Inquiries</span>
+        </h2>
+        <p class="text-xs text-slate-400 mt-1">Audit, register, and update system entries.</p>
+      </div>
+      
+      <button
+        *ngIf="activeTab === 'courses'"
+        (click)="showAddCourseModal = true"
+        class="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-5 py-3.5 rounded-xl transition shadow-md shadow-red-655/10 border-none cursor-pointer"
+      >
+        <i class="fa-solid fa-plus text-[10px]"></i> Add New Program
+      </button>
+    </div>
+
+    <!-- TAB DETAILS CONTAINER -->
+    <div class="bg-white dark:bg-[#141416] border border-slate-100 dark:border-zinc-800 rounded-3xl shadow-md overflow-hidden transition-colors duration-250">
+      
+      <!-- USERS TAB -->
+      <div *ngIf="activeTab === 'users'" class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">Name</th>
+              <th class="p-5">Email</th>
+              <th class="p-5">Role</th>
+              <th class="p-5">Joined Date</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let u of adminData.users" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5 font-bold text-slate-800 dark:text-white flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-slate-800 dark:bg-zinc-700 text-white flex items-center justify-center font-bold text-xs">
+                  {{ u.name.charAt(0) }}
+                </div>
+                {{ u.name }}
+              </td>
+              <td class="p-5 text-slate-550 dark:text-zinc-350 font-semibold">{{ u.email }}</td>
+              <td class="p-5">
+                <span [ngClass]="{
+                  'bg-red-50 text-red-655 dark:bg-red-950/20 dark:text-red-400': u.role === 'admin',
+                  'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-300': u.role !== 'admin'
+                }" class="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wide">
+                  {{ u.role }}
+                </span>
+              </td>
+              <td class="p-5 text-slate-400 dark:text-zinc-500 text-xs font-semibold">
+                {{ formatDate(u.created_at) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- COURSES TAB -->
+      <div *ngIf="activeTab === 'courses'" class="overflow-x-auto">
+        <p *ngIf="adminData.courses.length === 0" class="p-10 text-center text-slate-500">No programs available. Click "+ Add New Program" to register one.</p>
+        <table *ngIf="adminData.courses.length > 0" class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">Course Title</th>
+              <th class="p-5">Difficulty Level</th>
+              <th class="p-5">Category</th>
+              <th class="p-5">Display specifications</th>
+              <th class="p-5">Detailed Summary</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let course of adminData.courses" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5 font-bold text-slate-800 dark:text-white">{{ course.title }}</td>
+              <td class="p-5">
+                <span class="bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 px-2.5 py-1 rounded-md text-xs font-semibold">
+                  {{ course.level }}
+                </span>
+              </td>
+              <td class="p-5">
+                <span [ngClass]="{
+                  'bg-indigo-50 text-indigo-650 dark:bg-indigo-950/20 dark:text-indigo-400': course.is_technical,
+                  'bg-emerald-50 text-emerald-650 dark:bg-emerald-950/20 dark:text-emerald-400': !course.is_technical
+                }" class="px-2.5 py-1 rounded-md text-xs font-semibold">
+                  {{ course.is_technical ? 'AI Specialization' : 'Foundation Career Track' }}
+                </span>
+              </td>
+              <td class="p-5">
+                <span *ngIf="course.is_technical" class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-zinc-400 font-semibold">
+                  <i [class]="getIconClass(course.icon_name)"></i> Icon: {{ course.icon_name }}
+                </span>
+                <span *ngIf="!course.is_technical" class="truncate block max-w-[180px] text-xs text-slate-500 dark:text-zinc-400 font-semibold" [title]="course.image_url">
+                  Image URL: Provided
+                </span>
+              </td>
+              <td class="p-5 text-slate-400 dark:text-zinc-450 font-medium max-w-xs truncate" [title]="course.description">
+                {{ course.description }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ENROLLMENTS TAB -->
+      <div *ngIf="activeTab === 'enrollments'" class="overflow-x-auto">
+        <p *ngIf="adminData.enrollments.length === 0" class="p-10 text-center text-slate-500">No active students enrollments found.</p>
+        <table *ngIf="adminData.enrollments.length > 0" class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">Student Details</th>
+              <th class="p-5">Student Email</th>
+              <th class="p-5">Enrolled Course</th>
+              <th class="p-5">Date of registration</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let e of adminData.enrollments" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5 font-bold text-slate-800 dark:text-white">{{ e.user_name }}</td>
+              <td class="p-5 text-slate-500 dark:text-zinc-400 font-semibold">{{ e.user_email }}</td>
+              <td class="p-5 font-bold text-red-655 dark:text-red-400">{{ e.course_title }}</td>
+              <td class="p-5 text-slate-400 dark:text-zinc-500 text-xs font-semibold">
+                {{ formatDate(e.created_at) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SNAP TESTS TAB -->
+      <div *ngIf="activeTab === 'snapTests'" class="overflow-x-auto">
+        <p *ngIf="adminData.snapTests.length === 0" class="p-10 text-center text-slate-500">No test metrics reported yet.</p>
+        <table *ngIf="adminData.snapTests.length > 0" class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">Student Name</th>
+              <th class="p-5">Student Email</th>
+              <th class="p-5">Quiz Topic</th>
+              <th class="p-5">Score Metric</th>
+              <th class="p-5">Assessment Date</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let st of adminData.snapTests" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5 font-bold text-slate-800 dark:text-white">{{ st.user_name }}</td>
+              <td class="p-5 text-slate-500 dark:text-zinc-400 font-semibold">{{ st.user_email }}</td>
+              <td class="p-5 text-slate-800 dark:text-white font-bold">{{ st.topic }}</td>
+              <td class="p-5">
+                <span [ngClass]="{
+                  'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-400': st.score >= 4,
+                  'bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400': st.score >= 2 && st.score < 4,
+                  'bg-red-50 text-red-600 dark:bg-red-950/20 dark:text-red-400': st.score < 2
+                }" class="px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wide">
+                  {{ st.score }} / {{ st.total_questions }} ({{ (st.score/st.total_questions * 100).toFixed(0) }}%)
+                </span>
+              </td>
+              <td class="p-5 text-slate-400 dark:text-zinc-550 text-xs font-semibold">
+                {{ formatDateTime(st.created_at) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- POSTS TAB -->
+      <div *ngIf="activeTab === 'posts'" class="overflow-x-auto">
+        <p *ngIf="adminData.posts.length === 0" class="p-10 text-center text-slate-500">No community posts submitted yet.</p>
+        <table *ngIf="adminData.posts.length > 0" class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">Author</th>
+              <th class="p-5">Title</th>
+              <th class="p-5">Content Snippet</th>
+              <th class="p-5">Status</th>
+              <th class="p-5 text-right">Approval Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let post of adminData.posts" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5">
+                <p class="font-bold text-slate-805 dark:text-white">{{ post.author_name }}</p>
+                <p class="text-[10px] text-slate-400 dark:text-zinc-500">{{ post.author_email }}</p>
+              </td>
+              <td class="p-5 font-semibold text-slate-800 dark:text-white">{{ post.title }}</td>
+              <td class="p-5 text-slate-400 dark:text-zinc-400 font-medium max-w-xs truncate" [title]="post.content">
+                {{ post.content }}
+              </td>
+              <td class="p-5">
+                <span [ngClass]="{
+                  'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-400': post.status === 'approved',
+                  'bg-red-50 text-red-655 dark:bg-red-950/20 dark:text-red-400': post.status === 'rejected',
+                  'bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400': post.status !== 'approved' && post.status !== 'rejected'
+                }" class="px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider">
+                  {{ post.status }}
+                </span>
+              </td>
+              <td class="p-5 text-right space-x-2 whitespace-nowrap">
+                <button
+                  (click)="handleManageComments(post.id)"
+                  class="border border-indigo-500 hover:bg-indigo-500 hover:text-white text-indigo-650 dark:text-indigo-400 font-bold text-xs px-3.5 py-1.5 rounded-lg transition inline-flex items-center gap-1.5 bg-transparent cursor-pointer"
+                >
+                  <i class="fa-solid fa-comment text-[10px]"></i> Comments
+                </button>
+                <button
+                  *ngIf="post.status !== 'approved'"
+                  (click)="handleUpdatePostStatus(post.id, 'approved')"
+                  class="border border-green-500 hover:bg-green-500 hover:text-white text-green-650 dark:text-green-400 font-bold text-xs px-3.5 py-1.5 rounded-lg transition bg-transparent cursor-pointer"
+                >
+                  Approve
+                </button>
+                <button
+                  *ngIf="post.status !== 'rejected'"
+                  (click)="handleUpdatePostStatus(post.id, 'rejected')"
+                  class="border border-red-500 hover:bg-red-500 hover:text-white text-red-600 dark:text-red-400 font-bold text-xs px-3.5 py-1.5 rounded-lg transition bg-transparent cursor-pointer"
+                >
+                  Reject
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- APPLICATIONS TAB -->
+      <div *ngIf="activeTab === 'applications'" class="overflow-x-auto">
+        <p *ngIf="adminData.applications.length === 0" class="p-10 text-center text-slate-500">No student applications submitted yet.</p>
+        <table *ngIf="adminData.applications.length > 0" class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">Applicant</th>
+              <th class="p-5">Contact Info</th>
+              <th class="p-5">University & Class</th>
+              <th class="p-5">Social Profile</th>
+              <th class="p-5">Submit Date</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let app of adminData.applications" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5 font-bold text-slate-800 dark:text-white flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-red-650 text-white flex items-center justify-center font-bold text-xs uppercase">
+                  {{ app.name.charAt(0) }}
+                </div>
+                {{ app.name }}
+              </td>
+              <td class="p-5 text-slate-500 dark:text-zinc-400 space-y-1">
+                <p class="font-semibold text-gray-800 dark:text-white">{{ app.email }}</p>
+                <p class="text-xs text-slate-400">Ph: {{ app.phone }}</p>
+              </td>
+              <td class="p-5 space-y-1">
+                <p class="font-bold text-slate-800 dark:text-white">{{ app.college }}</p>
+                <p class="text-[10px] bg-slate-100 dark:bg-zinc-800 text-slate-650 dark:text-zinc-300 px-2 py-0.5 rounded-md inline-block font-semibold">Class of {{ app.passout }}</p>
+              </td>
+              <td class="p-5">
+                <a
+                  [href]="app.linkedin"
+                  target="_blank"
+                  rel="noreferrer"
+                  class="text-xs text-indigo-650 dark:text-indigo-400 font-extrabold hover:underline"
+                >
+                  View LinkedIn
+                </a>
+              </td>
+              <td class="p-5 text-slate-400 dark:text-zinc-550 text-xs font-semibold">
+                {{ formatDate(app.created_at) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CONTACTS TAB -->
+      <div *ngIf="activeTab === 'contacts'" class="overflow-x-auto">
+        <p *ngIf="adminData.contacts.length === 0" class="p-10 text-center text-slate-500">No contact messages received.</p>
+        <table *ngIf="adminData.contacts.length > 0" class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">Sender</th>
+              <th class="p-5">Contact Details</th>
+              <th class="p-5">Subject Line</th>
+              <th class="p-5">Message Body</th>
+              <th class="p-5">Send Date</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let c of adminData.contacts" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5 font-bold text-slate-805 dark:text-white">{{ c.name }}</td>
+              <td class="p-5 text-slate-500 dark:text-zinc-400 space-y-0.5">
+                <p class="font-semibold text-gray-800 dark:text-white">{{ c.email }}</p>
+                <p *ngIf="c.phone" class="text-xs text-slate-400">Ph: {{ c.phone }}</p>
+              </td>
+              <td class="p-5 font-bold text-slate-800 dark:text-white">{{ c.subject || 'General Inquiry' }}</td>
+              <td class="p-5 text-slate-400 dark:text-zinc-450 font-medium max-w-xs truncate" [title]="c.message">
+                {{ c.message }}
+              </td>
+              <td class="p-5 text-slate-400 dark:text-zinc-550 text-xs font-semibold">
+                {{ formatDate(c.created_at) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- INQUIRIES TAB -->
+      <div *ngIf="activeTab === 'inquiries'" class="overflow-x-auto">
+        <p *ngIf="adminData.inquiries.length === 0" class="p-10 text-center text-slate-500">No course inquiries filed.</p>
+        <table *ngIf="adminData.inquiries.length > 0" class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 dark:bg-zinc-800/40 text-slate-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">
+              <th class="p-5">User</th>
+              <th class="p-5">Contact</th>
+              <th class="p-5">Target Program</th>
+              <th class="p-5">Student Goals</th>
+              <th class="p-5">Submit Date</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 text-sm">
+            <tr *ngFor="let inq of adminData.inquiries" class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/20 transition">
+              <td class="p-5 font-bold text-slate-805 dark:text-white">{{ inq.name }}</td>
+              <td class="p-5 text-slate-500 dark:text-zinc-400 space-y-0.5">
+                <p class="font-semibold text-gray-800 dark:text-white">{{ inq.email }}</p>
+                <p *ngIf="inq.phone" class="text-xs text-slate-400">Ph: {{ inq.phone }}</p>
+              </td>
+              <td class="p-5 font-bold text-red-655 dark:text-red-400">{{ inq.course }}</td>
+              <td class="p-5 text-slate-400 dark:text-zinc-450 font-medium max-w-xs truncate" [title]="inq.message">
+                {{ inq.message }}
+              </td>
+              <td class="p-5 text-slate-400 dark:text-zinc-550 text-xs font-semibold">
+                {{ formatDate(inq.created_at) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ADMIN ADD COURSE MODAL -->
+    <div *ngIf="showAddCourseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-[#141416] w-full max-w-xl rounded-[2rem] p-8 shadow-2xl relative border border-slate-100 dark:border-zinc-800 max-h-[90vh] overflow-y-auto">
+        <button
+          (click)="showAddCourseModal = false"
+          class="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-full transition border-none bg-transparent cursor-pointer"
+        >
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+        
+        <div class="mb-6 text-left">
+          <h3 class="text-2xl font-extrabold text-slate-850 dark:text-white">Publish Program</h3>
+          <p class="text-xs text-slate-400 dark:text-zinc-400 mt-1">Make a new course available on the public specializations portal.</p>
+        </div>
+
+        <form (ngSubmit)="handleCourseSubmit()" class="space-y-5 text-left">
+          <!-- Title -->
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-550 dark:text-zinc-405 uppercase tracking-wide">Course Title</label>
+            <input
+              type="text"
+              name="title"
+              [(ngModel)]="courseForm.title"
+              placeholder="e.g. AI Workflow Automation"
+              class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-600 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-850 dark:text-white placeholder-gray-400"
+              required
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Level -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-slate-550 dark:text-zinc-405 uppercase tracking-wide">Difficulty Level</label>
+              <select
+                name="level"
+                [(ngModel)]="courseForm.level"
+                class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-655 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-850 dark:text-white"
+              >
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+                <option value="Foundation">Foundation</option>
+              </select>
+            </div>
+
+            <!-- Category -->
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-slate-550 dark:text-zinc-405 uppercase tracking-wide">Course Category</label>
+              <select
+                name="is_technical"
+                [(ngModel)]="courseForm.is_technical"
+                class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-655 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-850 dark:text-white"
+              >
+                <option value="true">AI Technical Specialization</option>
+                <option value="false">Foundation Career Track</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-550 dark:text-zinc-405 uppercase tracking-wide">Description Summary</label>
+            <textarea
+              name="description"
+              [(ngModel)]="courseForm.description"
+              placeholder="Provide a detailed summary of what the course covers, key technologies taught, and prerequisites..."
+              rows="3"
+              class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-655 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-850 dark:text-white placeholder-gray-400 resize-none"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Conditional fields based on selection -->
+          <div *ngIf="courseForm.is_technical === 'true'; else foundationFields" class="space-y-1.5">
+            <label class="text-xs font-bold text-slate-555 dark:text-zinc-405 uppercase tracking-wide">Icon Representation</label>
+            <select
+              name="icon_name"
+              [(ngModel)]="courseForm.icon_name"
+              class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-655 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-850 dark:text-white"
+            >
+              <option value="FaCode">Code & Tech (FaCode)</option>
+              <option value="FaBrain">Deep Learning / AI (FaBrain)</option>
+              <option value="FaRobot">Agentic / Robotics (FaRobot)</option>
+              <option value="FaSearch">Search & RAG (FaSearch)</option>
+              <option value="FaDatabase">Database & SQL (FaDatabase)</option>
+            </select>
+          </div>
+
+          <ng-template #foundationFields>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-slate-555 dark:text-zinc-405 uppercase tracking-wide">Cover Image URL</label>
+              <input
+                type="url"
+                name="image_url"
+                [(ngModel)]="courseForm.image_url"
+                placeholder="e.g. https://images.unsplash.com/... (optional)"
+                class="w-full bg-white dark:bg-[#0D0D0E] border border-slate-200 dark:border-zinc-800 focus:border-red-655 focus:ring-1 focus:ring-red-500 outline-none rounded-xl p-3.5 text-sm text-gray-850 dark:text-white placeholder-gray-400"
+              />
+            </div>
+          </ng-template>
+
+          <!-- Actions -->
+          <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-zinc-800">
+            <button
+              type="button"
+              (click)="showAddCourseModal = false"
+              class="border border-slate-200 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300 text-xs font-bold px-5 py-3 rounded-xl transition bg-transparent cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              [disabled]="courseSubmitting"
+              class="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-6 py-3 rounded-xl transition shadow-md shadow-red-600/10 border-none cursor-pointer disabled:opacity-50"
+            >
+              {{ courseSubmitting ? 'Publishing...' : 'Publish Course' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ADMIN MANAGE COMMENTS MODAL -->
+    <div *ngIf="showCommentsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-[#141416] w-full max-w-2xl rounded-[2rem] p-8 shadow-2xl relative border border-slate-100 dark:border-zinc-800 max-h-[85vh] overflow-y-auto">
+        <button
+          (click)="showCommentsModal = false"
+          class="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-full transition border-none bg-transparent cursor-pointer"
+        >
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+
+        <div class="mb-6 text-left">
+          <h3 class="text-2xl font-extrabold text-slate-850 dark:text-white">Manage Post Comments</h3>
+          <p class="text-xs text-slate-400 dark:text-zinc-400 mt-1">Review and delete student discussion replies.</p>
+        </div>
+
+        <div *ngIf="commentsLoading" class="flex justify-center items-center py-10">
+          <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-650"></div>
+        </div>
+
+        <div *ngIf="!commentsLoading">
+          <p *ngIf="selectedPostComments.length === 0" class="text-sm text-slate-500 py-6 text-center italic">No comments submitted on this post.</p>
+          <div *ngIf="selectedPostComments.length > 0" class="divide-y divide-slate-100 dark:divide-zinc-800 max-h-[50vh] overflow-y-auto pr-2 space-y-4 text-left">
+            <div *ngFor="let comment of selectedPostComments" class="flex justify-between items-start gap-4 pt-4 first:pt-0">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-slate-800 dark:text-white">{{ comment.author_name }}</span>
+                  <span class="text-[10px] text-slate-455 dark:text-zinc-500">{{ comment.author_email }}</span>
+                  <span class="text-[9px] text-slate-400 bg-slate-50 dark:bg-zinc-800 dark:text-zinc-350 px-2 py-0.5 rounded">
+                    {{ formatDate(comment.created_at) }}
+                  </span>
+                </div>
+                <p class="text-slate-600 dark:text-zinc-300 text-xs leading-5">{{ comment.content }}</p>
+              </div>
+              <button
+                (click)="handleDeleteComment(comment.id)"
+                class="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-zinc-850 p-2 rounded-xl transition shrink-0 border-none bg-transparent cursor-pointer"
+                title="Delete Comment"
+              >
+                <i class="fa-solid fa-trash text-sm"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-6 border-t border-slate-100 dark:border-zinc-800 mt-6">
+          <button
+            (click)="showCommentsModal = false"
+            class="bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-6 py-3 rounded-xl hover:bg-gray-800 dark:hover:bg-zinc-200 transition border-none cursor-pointer"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-template>
+
+<!-- ================= STUDENT DASHBOARD TEMPLATE ================= -->
+<ng-template #studentDashboardContent>
+  <div class="space-y-10">
+    
+    <!-- OVERVIEW TAB (ENROLLED COURSES) -->
+    <div *ngIf="studentTab === 'overview'" class="space-y-6">
+      <div class="flex justify-between items-center border-b border-slate-200/80 dark:border-zinc-800 pb-4">
+        <div class="text-left">
+          <h2 class="text-xl font-extrabold text-slate-800 dark:text-white uppercase tracking-tight">Active Registrations</h2>
+          <p class="text-xs text-slate-400 mt-1">Study your enrolled specialization courses.</p>
+        </div>
+        <span class="text-xs bg-slate-100 dark:bg-zinc-800 px-3.5 py-2 rounded-xl text-slate-600 dark:text-zinc-300 font-extrabold">
+          {{ enrolledCourses.length }} {{ enrolledCourses.length === 1 ? 'Program' : 'Programs' }}
+        </span>
+      </div>
+
+      <div *ngIf="enrolledLoading" class="flex justify-center items-center py-20 bg-white dark:bg-[#141416] rounded-3xl border border-slate-100 dark:border-zinc-800 shadow-sm">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-red-655"></div>
+      </div>
+
+      <div *ngIf="!enrolledLoading && enrolledCourses.length === 0" class="bg-white dark:bg-[#141416] border border-slate-100 dark:border-zinc-800 rounded-3xl p-12 text-center shadow-md">
+        <i class="fa-solid fa-graduation-cap mx-auto text-5xl text-slate-350 dark:text-zinc-700 mb-4 animate-pulse"></i>
+        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-2">No active enrollments</h3>
+        <p class="text-slate-500 dark:text-zinc-400 mb-6 max-w-sm mx-auto text-sm leading-6">
+          Subscribe to any of our advanced AI, Data Science, and Digital Marketing training programs to access class lectures.
+        </p>
+        <button
+          routerLink="/courses"
+          class="bg-red-600 hover:bg-red-500 text-white px-8 py-3.5 rounded-xl font-semibold transition text-xs shadow-md shadow-red-600/10 border-none cursor-pointer"
+        >
+          Browse Specializations
+        </button>
+      </div>
+
+      <div *ngIf="!enrolledLoading && enrolledCourses.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div
+          *ngFor="let course of enrolledCourses"
+          class="bg-white dark:bg-[#141416] border border-slate-100 dark:border-zinc-800/80 rounded-[2rem] shadow-md p-6 flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 transition duration-300 text-left"
+        >
+          <div>
+            <span class="text-[10px] bg-red-50 dark:bg-zinc-800 text-red-600 dark:text-red-400 font-bold px-3 py-1.5 rounded-lg mb-4 inline-block uppercase tracking-wider">
+              {{ course.level }}
+            </span>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2 leading-snug">{{ course.title }}</h3>
+            <p class="text-slate-500 dark:text-zinc-450 text-xs leading-5 mb-6 line-clamp-3">
+              {{ course.description }}
+            </p>
+          </div>
+          <button class="w-full bg-slate-50 dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-750 text-slate-800 dark:text-zinc-200 py-3 rounded-xl text-xs font-bold transition border border-slate-100 dark:border-zinc-850 cursor-pointer">
+            Access Modules
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SNAP TEST TAB (QUIZ ENGINE) -->
+    <div *ngIf="studentTab === 'snapTest'" class="bg-white dark:bg-[#141416] border border-slate-100 dark:border-zinc-800 rounded-[2rem] p-8 shadow-md space-y-6">
+      
+      <!-- START QUIZ PROMPT -->
+      <div *ngIf="!activeQuiz" class="flex flex-col md:flex-row md:items-center justify-between gap-6 text-left">
+        <div class="space-y-2">
+          <span class="bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md">
+            Assess Skills
+          </span>
+          <h3 class="text-2xl font-extrabold text-slate-800 dark:text-white">AI & Tech Snap Test</h3>
+          <p class="text-slate-500 dark:text-zinc-400 text-xs max-w-lg leading-6">
+            Assess your understanding of Large Language Models, prompt engineering parameters, RAG systems, and neural agents in a quick 5-question snap test.
+          </p>
+        </div>
+        <button
+          (click)="startQuiz()"
+          class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-6 py-4 rounded-xl transition shadow-md shadow-orange-500/10 shrink-0 border-none cursor-pointer"
+        >
+          Start Snap Test
+        </button>
+      </div>
+
+      <!-- QUIZ ENGINE INTERFACE -->
+      <div *ngIf="activeQuiz" class="space-y-6">
+        
+        <!-- QUIZ ACTIVE QUESTIONS -->
+        <div *ngIf="!quizFinished" class="text-left space-y-6">
+          <div class="flex justify-between items-center border-b border-slate-100 dark:border-zinc-800 pb-4">
+            <div>
+              <h4 class="font-extrabold text-slate-850 dark:text-white text-lg">Technology Snap Test</h4>
+              <p class="text-[10px] text-slate-450 dark:text-zinc-500 font-semibold uppercase tracking-wider mt-0.5">Topic: AI & Modern Tech</p>
+            </div>
+            <span class="text-xs bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 font-bold px-3 py-1.5 rounded-lg">
+              Question {{ currentQuestionIndex + 1 }} of {{ quizQuestions.length }}
+            </span>
+          </div>
+
+          <div class="space-y-4">
+            <p class="font-bold text-slate-800 dark:text-white text-base md:text-lg">
+              {{ quizQuestions[currentQuestionIndex].q }}
+            </p>
+            <div class="grid grid-cols-1 gap-3 pt-2">
+              <button
+                *ngFor="let opt of quizQuestions[currentQuestionIndex].options; let oIdx = index"
+                [disabled]="selectedAnswer !== null"
+                (click)="handleSelectOption(oIdx)"
+                [ngClass]="{
+                  'border-slate-200 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300': selectedAnswer === null,
+                  'bg-green-50 border-green-300 text-green-700 dark:bg-green-950/20 dark:border-green-900/50 dark:text-green-400 font-bold': selectedAnswer !== null && selectedAnswer === oIdx && oIdx === quizQuestions[currentQuestionIndex].answer,
+                  'bg-red-50 border-red-300 text-red-700 dark:bg-red-950/20 dark:border-red-900/50 dark:text-red-400 font-bold': selectedAnswer !== null && selectedAnswer === oIdx && oIdx !== quizQuestions[currentQuestionIndex].answer,
+                  'bg-green-50 border-green-200 text-green-700 dark:bg-green-950/20 dark:border-green-900/50 dark:text-green-400 font-semibold': selectedAnswer !== null && selectedAnswer !== oIdx && oIdx === quizQuestions[currentQuestionIndex].answer,
+                  'opacity-60 border-slate-100 dark:border-zinc-850 text-slate-400 dark:text-zinc-600': selectedAnswer !== null && selectedAnswer !== oIdx && oIdx !== quizQuestions[currentQuestionIndex].answer
+                }"
+                class="w-full text-left p-4 rounded-xl border text-sm transition flex items-center justify-between bg-transparent cursor-pointer"
+              >
+                <span>{{ opt }}</span>
+                <i *ngIf="selectedAnswer !== null && oIdx === quizQuestions[currentQuestionIndex].answer" class="fa-solid fa-circle-check text-green-500"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center border-t border-slate-100 dark:border-zinc-800 pt-5 mt-4">
+            <div class="flex items-center gap-2 text-xs text-slate-400 dark:text-zinc-550 font-medium">
+              <i class="fa-solid fa-lightbulb text-amber-500"></i>
+              <span>Submit answer to proceed.</span>
+            </div>
+            <button
+              (click)="handleNextQuestion()"
+              [disabled]="selectedAnswer === null"
+              [ngClass]="{
+                'opacity-40 cursor-not-allowed': selectedAnswer === null,
+                'hover:bg-gray-800 dark:hover:bg-zinc-200': selectedAnswer !== null
+              }"
+              class="flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-5 py-3 rounded-xl text-xs font-bold transition border-none cursor-pointer"
+            >
+              <span>{{ currentQuestionIndex + 1 === quizQuestions.length ? 'Finish Test' : 'Next Question' }}</span>
+              <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- QUIZ COMPLETED SUMMARY -->
+        <div *ngIf="quizFinished" class="text-center py-6 space-y-6">
+          <i class="fa-solid fa-circle-check text-6xl text-green-500 animate-bounce"></i>
+          <div>
+            <h4 class="text-2xl font-bold text-slate-800 dark:text-white">Quiz Completed!</h4>
+            <p class="text-slate-400 dark:text-zinc-400 text-xs mt-1">Excellent effort! Ready to log your score?</p>
+          </div>
+          <div class="bg-slate-50 dark:bg-zinc-800 rounded-2xl p-6 max-w-xs mx-auto border border-slate-100 dark:border-zinc-850">
+            <p class="text-[10px] text-slate-400 dark:text-zinc-400 uppercase tracking-widest font-bold">Your Score</p>
+            <h3 class="text-4xl font-black text-slate-850 dark:text-white mt-1">
+              {{ quizScore }} <span class="text-lg text-slate-400">/ {{ quizQuestions.length }}</span>
+            </h3>
+            <p class="text-[10px] text-indigo-650 dark:text-indigo-400 font-bold mt-2 uppercase tracking-wide">
+              {{ quizScore >= 4 ? 'AI Specialist Rank' : quizScore >= 2 ? 'Intermediate Practitioner' : 'Beginner Level' }}
+            </p>
+          </div>
+          <div class="flex items-center justify-center gap-3 pt-4">
+            <button
+              type="button"
+              (click)="activeQuiz = false"
+              class="border border-slate-200 dark:border-zinc-800 hover:bg-slate-50 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300 text-xs font-bold px-6 py-3.5 rounded-xl transition bg-transparent cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              (click)="handleSubmitQuiz()"
+              [disabled]="submittingQuiz"
+              class="bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold px-6 py-3.5 rounded-xl transition shadow-md shadow-orange-500/10 border-none cursor-pointer disabled:opacity-50"
+            >
+              {{ submittingQuiz ? 'Submitting...' : 'Submit Score' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEST HISTORY LIST -->
+      <div *ngIf="snapTestHistory.length > 0 && !activeQuiz" class="border-t border-slate-100 dark:border-zinc-800 pt-6">
+        <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-zinc-500 mb-3 text-left">Your Test History</h4>
+        <div class="space-y-2 text-left">
+          <div
+            *ngFor="let history of snapTestHistory"
+            class="flex justify-between items-center bg-slate-50/50 dark:bg-zinc-800/40 p-4 rounded-xl border border-slate-100 dark:border-zinc-800 text-xs"
+          >
+            <div>
+              <p class="font-bold text-slate-700 dark:text-white">{{ history.topic }}</p>
+              <p class="text-slate-400 dark:text-zinc-500 mt-0.5 text-[10px]">
+                {{ formatDate(history.created_at) }}
+              </p>
+            </div>
+            <span [ngClass]="{
+              'bg-green-50 text-green-600 dark:bg-green-950/20 dark:text-green-400': history.score >= 4,
+              'bg-amber-50 text-amber-600 dark:bg-amber-950/20 dark:text-amber-400': history.score >= 2 && history.score < 4,
+              'bg-red-50 text-red-655 dark:bg-red-950/20 dark:text-red-400': history.score < 2
+            }" class="px-2.5 py-1 rounded-full font-bold">
+              Score: {{ history.score }} / {{ history.total_questions }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNITY TAB -->
+    <div *ngIf="studentTab === 'community'" class="bg-gradient-to-br from-[#0c1020] to-[#161c30] rounded-[2rem] p-8 text-white shadow-xl relative overflow-hidden border border-[#1e2540] text-left">
+      <div class="absolute top-0 right-0 w-44 h-44 bg-indigo-500/10 rounded-full blur-3xl"></div>
+      <div class="flex items-center gap-3.5 mb-4">
+        <i class="fa-solid fa-users text-3xl text-red-500"></i>
+        <h3 class="text-2xl font-black">Join Learning Community</h3>
+      </div>
+      <p class="text-slate-300 text-xs leading-6 mb-8 max-w-xl">
+        Connect with fellow developers, get 24/7 coding assistance, share project work, and access hackathons.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg">
+        <a
+          href="https://discord.com"
+          target="_blank"
+          rel="noreferrer"
+          class="flex items-center justify-center gap-2.5 w-full bg-[#5865F2] hover:bg-[#4752C4] py-4 rounded-xl text-xs font-bold transition shadow-md shadow-indigo-650/20 text-white"
+        >
+          <i class="fa-brands fa-discord text-lg"></i> Join Discord Server
+        </a>
+        <a
+          href="https://whatsapp.com"
+          target="_blank"
+          rel="noreferrer"
+          class="flex items-center justify-center gap-2.5 w-full bg-[#25D366] hover:bg-[#20ba5a] py-4 rounded-xl text-xs font-bold transition shadow-md shadow-emerald-500/20 text-white"
+        >
+          <i class="fa-brands fa-whatsapp text-lg"></i> Join WhatsApp Group
+        </a>
+      </div>
+    </div>
+
+  </div>
+</ng-template>

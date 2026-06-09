@@ -1,0 +1,39 @@
+<section class="relative px-6 md:px-16 py-24 bg-white dark:bg-[#0A0A0B] text-gray-800 dark:text-white transition-colors duration-250">
+  
+  <!-- Subtle Gradient Background -->
+  <div class="absolute bottom-0 left-0 w-80 h-80 rounded-full bg-red-500/5 dark:bg-red-500/[0.02] blur-[80px] pointer-events-none"></div>
+
+  <!-- TITLE -->
+  <div class="text-center mb-16 space-y-4">
+    <p class="text-red-655 dark:text-red-500 font-extrabold text-xs md:text-sm tracking-widest uppercase">
+      FAQ
+    </p>
+    <h2 class="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-955 dark:text-white">
+      Common Questions
+    </h2>
+    <div class="w-12 h-1 bg-red-600 dark:bg-red-500 mx-auto rounded-full"></div>
+  </div>
+
+  <!-- FAQS Accordion -->
+  <div class="max-w-3xl mx-auto space-y-4">
+    @for (item of faqs; track $index) {
+      <div class="group border border-gray-200/70 dark:border-zinc-800/80 rounded-[1.5rem] bg-[#f9fafb] dark:bg-[#111112] hover:border-red-500/35 dark:hover:border-red-500/25 transition-all duration-300 overflow-hidden">
+        <button (click)="toggleFaq($index)"
+          class="w-full flex items-center justify-between p-6 md:p-8 text-left font-bold text-gray-900 dark:text-white text-base md:text-lg focus:outline-none cursor-pointer border-none bg-transparent">
+          <span>{{item.question}}</span>
+          <span class="w-8 h-8 rounded-full bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 flex items-center justify-center text-red-600 dark:text-red-500 shrink-0 ml-4 group-hover:bg-red-600 group-hover:text-white group-hover:border-red-600 transition-all duration-300">
+            <i class="fa-solid" [class.fa-chevron-down]="activeIndex !== $index" [class.fa-chevron-up]="activeIndex === $index"></i>
+          </span>
+        </button>
+        
+        <div class="transition-all duration-300 overflow-hidden" 
+             [class.max-h-0]="activeIndex !== $index" 
+             [class.max-h-60]="activeIndex === $index">
+          <div class="px-6 pb-6 md:px-8 md:pb-8 text-gray-600 dark:text-zinc-400 text-sm md:text-base leading-relaxed border-t border-gray-150 dark:border-zinc-800/50 pt-4">
+            {{item.answer}}
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
